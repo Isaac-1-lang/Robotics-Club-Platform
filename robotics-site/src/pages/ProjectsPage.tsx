@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Filter } from 'lucide-react'
-import { projects, ProjectCategory } from '../data/content'
+import { projects } from '../data/content'
+import type { ProjectCategory } from '../data/content'
 import { Card } from '../components/ui/Card'
 import { Section } from '../components/ui/Section'
 import { buttonClasses } from '../components/ui/buttonStyles'

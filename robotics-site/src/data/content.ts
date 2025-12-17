@@ -6,6 +6,8 @@ export const navLinks = [
   { label: 'Events', path: '/events' },
   { label: 'Gallery', path: '/gallery' },
   { label: 'Contact', path: '/contact' },
+  { label: 'Login', path: '/login' },
+  { label: 'Register', path: '/register' },
 ]
 
 export type ProjectCategory = 'AI' | 'Hardware' | 'IoT' | 'Software'

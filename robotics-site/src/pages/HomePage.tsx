@@ -30,22 +30,22 @@ export default function HomePage() {
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
-                  to="/contact"
+                  to="/register"
                   className={buttonClasses({
                     variant: 'secondary',
                     className: 'shadow-lg shadow-accent/40',
                   })}
                 >
-                  Join the Club
+                  Request Membership
                 </Link>
                 <Link
-                  to="/projects"
+                  to="/login"
                   className={buttonClasses({
                     variant: 'ghost',
                     className: 'border-white/40 text-white hover:text-white',
                   })}
                 >
-                  View Projects
+                  Admin / Member Login
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>

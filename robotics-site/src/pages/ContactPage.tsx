@@ -1,4 +1,4 @@
-import { FormEvent } from 'react'
+import type { FormEvent } from 'react'
 import { Mail, MapPin, Phone, Send } from 'lucide-react'
 import { Card } from '../components/ui/Card'
 import { Section } from '../components/ui/Section'

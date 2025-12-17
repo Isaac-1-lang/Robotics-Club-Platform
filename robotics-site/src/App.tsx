@@ -6,7 +6,9 @@ import ContactPage from './pages/ContactPage'
 import EventsPage from './pages/EventsPage'
 import GalleryPage from './pages/GalleryPage'
 import HomePage from './pages/HomePage'
+import LoginPage from './pages/LoginPage'
 import ProjectsPage from './pages/ProjectsPage'
+import RegisterPage from './pages/RegisterPage'
 import TeamPage from './pages/TeamPage'
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
           <Route path="/events" element={<EventsPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

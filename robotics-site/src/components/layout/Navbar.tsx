@@ -57,13 +57,13 @@ export default function Navbar() {
             <NavLinkItem key={link.path} path={link.path} label={link.label} />
           ))}
           <Link
-            to="/contact"
+            to="/register"
             className={buttonClasses({
               variant: 'primary',
               className: 'ml-2',
             })}
           >
-            Join the Club
+            Request Access
           </Link>
         </nav>
 
@@ -88,13 +88,13 @@ export default function Navbar() {
               />
             ))}
             <Link
-              to="/contact"
+              to="/register"
               className={buttonClasses({
                 variant: 'primary',
                 className: 'block w-full text-center',
               })}
             >
-              Join the Club
+              Request Access
             </Link>
           </div>
         </div>
