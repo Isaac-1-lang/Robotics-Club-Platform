@@ -106,12 +106,12 @@ export const whyRobotics = [
 
 export const team = [
   {
-    name: 'Aline Uwase',
+    name: 'Bonheur Christian',
     role: 'Club President',
     bio: 'Coordinates projects, partnerships, and competitions with a focus on AI safety.',
   },
   {
-    name: 'Eric Nshimiyimana',
+    name: 'Ntwali Gloria',
     role: 'Lead Hardware Engineer',
     bio: 'Designs circuits and motion systems for rovers, robotic arms, and IoT labs.',
   },
@@ -121,17 +121,17 @@ export const team = [
     bio: 'Architects control software and cloud dashboards with modern web tooling.',
   },
   {
-    name: 'Yvan Habimana',
+    name: 'Louis Miguel',
     role: 'Research & Vision',
     bio: 'Builds computer vision models and evaluates performance in lab settings.',
   },
   {
-    name: 'Sandrine Mukamana',
+    name: 'Dr Geoffrey',
     role: 'Operations & Outreach',
     bio: 'Runs workshops, onboarding, and documentation to keep projects accessible.',
   },
   {
-    name: 'Kevin Mugisha',
+    name: 'NIYOBYOSE Isaac Precieux',
     role: 'Robotics Mentor',
     bio: 'Guides safety protocols, testing, and mechanical design reviews for teams.',
   },
