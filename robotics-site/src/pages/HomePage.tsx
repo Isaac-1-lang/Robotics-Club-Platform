@@ -207,6 +207,46 @@ export default function HomePage() {
           ))}
         </div>
       </Section>
+      <Section
+        title="Popular Blogs"
+        eyebrow="What we're building"
+        description="From AI vision to IoT sensor networks, explore the engineering work powering our competitions and demos."
+      >
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {featuredProjects.map((project) => (
+            <motion.div
+              key={project.id}
+              whileHover={{ y: -4 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            >
+              <Card className="h-full overflow-hidden border-slate-200/80">
+                <div className="h-36 bg-gradient-to-br from-primary/10 via-accent/20 to-white" />
+                <div className="space-y-3 p-6">
+                  <div className="inline-flex rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-primary">
+                    {project.category}
+                  </div>
+                  <h3 className="text-xl font-bold text-text-primary">
+                    {project.title}
+                  </h3>
+                  <p className="text-sm text-text-muted leading-relaxed">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {project.stack.map((tech) => (
+                      <span
+                        key={tech}
+                        className="rounded-full bg-background px-3 py-1 text-xs font-semibold text-text-muted"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </Section>
     </>
   )
 }

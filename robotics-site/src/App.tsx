@@ -11,6 +11,7 @@ import LoginPage from './pages/LoginPage'
 import ProjectsPage from './pages/ProjectsPage'
 import RegisterPage from './pages/RegisterPage'
 import TeamPage from './pages/TeamPage'
+import BlogsPage from './pages/BlogsPage'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/blogs" element={<BlogsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

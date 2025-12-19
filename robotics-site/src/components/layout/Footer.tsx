@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { navLinks } from '../../data/content'
 
 const socials = [
-  { icon: Github, label: 'GitHub', href: 'https://github.com' },
+  { icon: Github, label: 'GitHub', href: 'https://github.com/ROBOTICS-CLUB1' },
   { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com' },
-  { icon: Instagram, label: 'Instagram', href: 'https://instagram.com' },
+  { icon: Instagram, label: 'Instagram', href: 'https://instagram.com/isaacniyo78' },
   { icon: Mail, label: 'Email', href: 'mailto:club@rca.rw' },
 ]
 

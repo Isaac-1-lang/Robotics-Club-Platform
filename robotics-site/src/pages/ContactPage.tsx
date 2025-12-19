@@ -1,5 +1,5 @@
 import type { FormEvent } from 'react'
-import { Mail, MapPin, Phone, Send } from 'lucide-react'
+import { Mail, MapPin, Phone, Send,GitBranchIcon } from 'lucide-react'
 import { Card } from '../components/ui/Card'
 import { Section } from '../components/ui/Section'
 import { buttonClasses } from '../components/ui/buttonStyles'
@@ -95,11 +95,15 @@ export default function ContactPage() {
             <div className="mt-4 space-y-3 text-sm text-text-primary">
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-primary" />
-                club@rca.rw
+                isaprecieux112@gmail.com
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-primary" />
-                +250 700 000 000
+                +250 788 598 775
+              </div>
+              <div className="flex items-center gap-2">
+                <GitBranchIcon className="h-4 w-4 text-primary" />
+                GitHub: ROBOTICS-CLUB1
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4 text-primary" />
