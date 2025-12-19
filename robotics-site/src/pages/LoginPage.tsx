@@ -4,16 +4,29 @@ import { ShieldCheck, LogIn } from 'lucide-react'
 import { Card } from '../components/ui/Card'
 import { buttonClasses } from '../components/ui/buttonStyles'
 import { Link } from 'react-router-dom'
+import type { LoginData } from '../apis/authApis'
+import { login } from '../apis/authApis'
 
 export default function LoginPage() {
   const [message, setMessage] = useState('')
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setMessage(
-      'Demo only: authenticate against your admin or member account. No backend is connected yet.',
-    )
-    // 
+    const formData = new FormData(event.currentTarget)
+    const loginData: LoginData = {
+      email: formData.get('email') as string,
+      password: formData.get('password') as string,
+    }
+
+    try {
+      const response = await login(loginData)
+      setMessage('Login successful!')
+      console.log('Login response:', response)
+      // You can redirect or update UI here on successful login
+    } catch (error: any) {
+      setMessage(error.response?.data?.message || 'Login failed. Please try again.')
+      console.error('Login error:', error)
+    }
   }
 
   return (
