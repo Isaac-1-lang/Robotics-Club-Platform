@@ -21,7 +21,7 @@ export default function BlogsPage() {
 
   const filteredProjects = useMemo(() => {
     if (activeCategory === 'All') return projects
-    return projects.filter((project) => project.category === activeCategory)
+    return projects.filter((project) => project.mainTag === activeCategory)
   }, [activeCategory])
 
   return (
@@ -63,7 +63,7 @@ export default function BlogsPage() {
               <div className="h-36 bg-gradient-to-br from-primary/10 via-accent/15 to-white" />
               <div className="flex flex-1 flex-col space-y-3 p-6">
                 <div className="inline-flex w-fit rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-primary">
-                  {project.category}
+                  {project.mainTag}
                 </div>
                 <h3 className="text-xl font-bold text-text-primary">
                   {project.title}
@@ -72,12 +72,12 @@ export default function BlogsPage() {
                   {project.description}
                 </p>
                 <div className="mt-auto flex flex-wrap gap-2">
-                  {project.stack.map((tech) => (
+                  {project.tags.map((tag: string) => (
                     <span
-                      key={tech}
+                      key={tag}
                       className="rounded-full bg-background px-3 py-1 text-xs font-semibold text-text-muted"
                     >
-                      {tech}
+                      {tag}
                     </span>
                   ))}
                 </div>

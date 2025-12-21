@@ -1,12 +1,46 @@
-import type { FormEvent } from 'react'
 import { Mail, MapPin, Phone, Send,GitBranchIcon } from 'lucide-react'
 import { Card } from '../components/ui/Card'
 import { Section } from '../components/ui/Section'
 import { buttonClasses } from '../components/ui/buttonStyles'
+import { useForm } from 'react-hook-form';
+import { sendContactMessage } from '../apis/contactApi';
+import { useMutation} from '@tanstack/react-query';
+import toast from 'react-hot-toast';
+import { cn } from '../lib/utils';
+
+
+
+interface ContactFormData {
+  name:string;
+  email:string;
+  subject:string;
+  message:string;
+}
 
 export default function ContactPage() {
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<ContactFormData>({
+    mode: 'onBlur',
+    defaultValues: {
+      name: '',
+      email: '',
+      subject: '',
+      message: ''
+    }
+  });
+
+  const mutation = useMutation({
+    mutationFn: sendContactMessage,
+    onSuccess: () => {
+      toast.success('Your message has been sent successfully');
+      reset();
+    },
+    onError: () => {
+      toast.error('Message failed to send. Please try again.');
+    }
+  });
+
+  const onSubmit = (data:ContactFormData) => {
+    mutation.mutateAsync(data);
   }
 
   return (
@@ -17,7 +51,7 @@ export default function ContactPage() {
     >
       <div className="grid gap-8 lg:grid-cols-2">
         <Card className="p-6">
-          <form className="space-y-4" onSubmit={handleSubmit}>
+          <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <label
@@ -28,11 +62,19 @@ export default function ContactPage() {
                 </label>
                 <input
                   id="name"
-                  name="name"
-                  required
-                  className="w-full rounded-xl border border-slate-200/80 bg-background px-4 py-3 text-sm text-text-primary outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/50"
+                  {...register('name', {
+                    required: 'Name is required',
+                    minLength: { value: 2, message: 'Name must be at least 2 characters' },
+                    maxLength: { value: 50, message: 'Name must be less than 50 characters' }
+                  })}
+                  className={`w-full rounded-xl border ${
+                    errors.name ? 'border-red-500' : 'border-slate-200/80'
+                  } bg-background px-4 py-3 text-sm text-text-primary outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/50`}
                   placeholder="Your name"
                 />
+                {errors.name && (
+                  <p className="text-sm text-red-500">{errors.name.message}</p>
+                )}
               </div>
               <div className="space-y-2">
                 <label
@@ -44,12 +86,45 @@ export default function ContactPage() {
                 <input
                   id="email"
                   type="email"
-                  name="email"
-                  required
-                  className="w-full rounded-xl border border-slate-200/80 bg-background px-4 py-3 text-sm text-text-primary outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/50"
+                  {...register('email', {
+                    required: 'Email is required',
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: 'Invalid email address',
+                    },
+                  })}
+                  className={`w-full rounded-xl border ${
+                    errors.email ? 'border-red-500' : 'border-slate-200/80'
+                  } bg-background px-4 py-3 text-sm text-text-primary outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/50`}
                   placeholder="you@example.com"
                 />
+                {errors.email && (
+                  <p className="text-sm text-red-500">{errors.email.message}</p>
+                )}
               </div>
+            </div>
+            <div className="space-y-2">
+              <label
+                htmlFor="subject"
+                className="text-sm font-semibold text-text-primary"
+              >
+                Subject
+              </label>
+              <input
+                id="subject"
+                {...register('subject', {
+                  required: 'Subject is required',
+                  minLength: { value: 5, message: 'Subject must be at least 5 characters' },
+                  maxLength: { value: 100, message: 'Subject must be less than 100 characters' }
+                })}
+                className={`w-full rounded-xl border ${
+                  errors.subject ? 'border-red-500' : 'border-slate-200/80'
+                } bg-background px-4 py-3 text-sm text-text-primary outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/50`}
+                placeholder="What's this about?"
+              />
+              {errors.subject && (
+                <p className="text-sm text-red-500">{errors.subject.message}</p>
+              )}
             </div>
             <div className="space-y-2">
               <label
@@ -60,19 +135,31 @@ export default function ContactPage() {
               </label>
               <textarea
                 id="message"
-                name="message"
+                {...register('message', {
+                  required: 'Message is required',
+                  minLength: { value: 10, message: 'Message must be at least 10 characters' },
+                  maxLength: { value: 1000, message: 'Message must be less than 1000 characters' }
+                })}
                 rows={4}
-                required
-                className="w-full rounded-xl border border-slate-200/80 bg-background px-4 py-3 text-sm text-text-primary outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/50"
+                className={`w-full rounded-xl border ${
+                  errors.message ? 'border-red-500' : 'border-slate-200/80'
+                } bg-background px-4 py-3 text-sm text-text-primary outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/50`}
                 placeholder="Tell us about your idea or question..."
               />
+              {errors.message && (
+                <p className="text-sm text-red-500">{errors.message.message}</p>
+              )}
             </div>
-            <button
+            <button   
               type="submit"
-              className={buttonClasses({
-                variant: 'primary',
-                className: 'inline-flex items-center gap-2',
-              })}
+              disabled={isSubmitting}
+              className={cn(
+                buttonClasses({
+                  variant: 'primary',
+                  className: 'inline-flex items-center gap-2',
+                }),
+                isSubmitting && 'opacity-70 cursor-not-allowed'
+              )}
             >
               Send Message
               <Send className="h-4 w-4" />

@@ -49,6 +49,8 @@ export default function ProjectsPage() {
   const [showReactions, setShowReactions] = useState<string | null>(null)
   const [newComment, setNewComment] = useState({ author: '', text: '' })
 
+
+
   // Load comments and reactions from persistent storage
   useEffect(() => {
     const savedComments = localStorage.getItem('projectComments')
@@ -76,7 +78,7 @@ export default function ProjectsPage() {
 
   const filteredProjects = useMemo(() => {
     if (activeCategory === 'All') return projects
-    return projects.filter((project) => project.category === activeCategory)
+    return projects.filter((project) => project.mainTag === activeCategory)
   }, [activeCategory])
 
   const handleAddComment = (projectId: string) => {
@@ -177,7 +179,7 @@ export default function ProjectsPage() {
                 <div className="h-36 bg-gradient-to-br from-primary/10 via-accent/15 to-white" />
                 <div className="flex flex-1 flex-col space-y-3 p-6">
                   <div className="inline-flex w-fit rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-primary">
-                    {project.category}
+                    {project.mainTag}
                   </div>
                   <h3 className="text-xl font-bold text-text-primary">
                     {project.title}
@@ -186,12 +188,12 @@ export default function ProjectsPage() {
                     {project.description}
                   </p>
                   <div className="mt-auto flex flex-wrap gap-2">
-                    {project.stack.map((tech) => (
+                    {project.tags.map((mainTag) => (
                       <span
-                        key={tech}
+                        key={mainTag}
                         className="rounded-full bg-background px-3 py-1 text-xs font-semibold text-text-muted"
                       >
-                        {tech}
+                        {mainTag}
                       </span>
                     ))}
                   </div>
