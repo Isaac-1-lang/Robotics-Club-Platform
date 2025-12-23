@@ -21,7 +21,7 @@ export default function LoginPage() {
     try {
       const response = await login(loginData)
       setMessage('Login successful!')
-      if(response.role=="admin"){
+      if(response.user.role=="admin"){
         // Navigate to the /admin portal
         navigate('/admin')
       }
