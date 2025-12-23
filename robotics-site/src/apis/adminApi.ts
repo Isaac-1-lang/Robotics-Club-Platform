@@ -30,12 +30,17 @@ export interface DashboardStats {
     user: number;
   };
 }
-
+export interface MemberData {
+  _id: string;
+  username: string;
+  email: string;
+  membershipRequestedAt: string;
+  bio?: string;
+}
 export const getPendingUsers = async () => {
   const response = await apiClient.get<PendingUser[]>('/admin/users/pending');
   return response.data;
 }
-
 export const approveUser = async (userId: string) => {
   const response = await apiClient.patch(`/admin/users/${userId}/approve`);
   return response.data;

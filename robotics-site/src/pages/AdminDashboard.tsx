@@ -25,6 +25,9 @@ export default function AdminDashboard() {
         getPendingUsers(),
         getMembers()
       ])
+      console.log('Pending users from API:',pendingData);
+      console.log('Members from API:',membersData);
+      console.log('Stats from API:',statsData);
       setStats(statsData)
       setPendingUsers(pendingData)
       setMembers(membersData)
@@ -121,11 +124,11 @@ export default function AdminDashboard() {
           <div className="p-4 border-t border-slate-100">
             <div className="flex items-center gap-3">
               <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold">
-                AD
+                {(localStorage.getItem('username') || 'U').charAt(0).toUpperCase()}
               </div>
               <div className="overflow-hidden">
-                <p className="text-sm font-medium text-slate-900 truncate">Admin User</p>
-                <p className="text-xs text-slate-500 truncate">admin@robotics.com</p>
+                <p className="text-sm font-medium text-slate-900 truncate">{localStorage.getItem('username')}</p>
+                <p className="text-xs text-slate-500 truncate">{localStorage.getItem('role')}</p>
               </div>
             </div>
           </div>

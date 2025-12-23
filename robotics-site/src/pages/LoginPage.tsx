@@ -21,9 +21,18 @@ export default function LoginPage() {
     try {
       const response = await login(loginData)
       setMessage('Login successful!')
+      localStorage.setItem('token', response.token)
+      localStorage.setItem('role', response.user.role)
+      localStorage.setItem('username', response.user.username)
+      console.log(response.user.username)
+      localStorage.setItem('email', response.user.email)
+      console.log(response.user.email)
       if(response.user.role=="admin"){
         // Navigate to the /admin portal
         navigate('/admin')
+      } else if(response.user.role=="member"){
+        // Navigate to the /user portal
+        navigate('/member')
       }
       // You can redirect or update UI here on successful login
     } catch (error: any) {

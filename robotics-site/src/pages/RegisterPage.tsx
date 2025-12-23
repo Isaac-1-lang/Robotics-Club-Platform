@@ -54,7 +54,7 @@ export default function RegisterPage() {
           <p className="font-medium">Registration Submitted!</p>
           <p className="text-sm">Your request is under review by our admin team.</p>
           <p className="text-xs text-gray-600">
-            You'll receive an email once your account is approved. This usually takes 24-48 hours.
+            You'll receive an email once your account is approved later.
           </p>
         </div>,
         {
