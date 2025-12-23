@@ -55,3 +55,26 @@ export const getDashboardStats = async () => {
   const response = await apiClient.get<DashboardStats>('/admin/dashboard');
   return response.data;
 }
+
+
+export const getSystemTags = async()=> {
+  const response = await apiClient.get('/admin/tags');
+  return response.data;
+}
+export const getSystemTagById = async() => {
+  const response = await apiClient.get('/admin/tags/:id');
+  return response.data;
+}
+
+export const createSystemTags = async()=> {
+  const response = await apiClient.post('/admin/tags');
+  return response.data;
+}
+export const updateSystemTags = async()=> {
+  const response = await apiClient.patch('/admin/tags/');
+  return response.data;
+}
+export const deleteSystemTags = async()=> {
+  const response = await apiClient.delete('/admin/tags');
+  return response.data;
+}

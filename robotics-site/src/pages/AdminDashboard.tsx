@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
-import { Calendar, Check, Clock, Users, ShieldCheck, Zap, LayoutDashboard, UserCheck, Menu, X, Settings, BookOpen, Search, Bell, MoreVertical, Loader } from 'lucide-react'
+import { Calendar, Check, Clock, Users, ShieldCheck, Zap, LayoutDashboard, UserCheck, Menu, X, Settings, BookOpen, Search, Bell, MoreVertical, Loader,Tag } from 'lucide-react'
 import { getPendingUsers, approveUser, rejectUser, getDashboardStats, type PendingUser, type DashboardStats } from '../apis/adminApi'
 import { getMembers, type MemberData } from '../apis/membersApi'
 import toast from 'react-hot-toast'
 
-type TabKey = 'overview' | 'members' | 'requests' | 'events' | 'settings' | 'projects' | 'blogs'
+type TabKey = 'overview' | 'members' | 'requests' | 'events' | 'settings' | 'projects' | 'blogs' | 'Tags'
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<TabKey>('overview')
@@ -25,9 +25,6 @@ export default function AdminDashboard() {
         getPendingUsers(),
         getMembers()
       ])
-      console.log('Pending users from API:',pendingData);
-      console.log('Members from API:',membersData);
-      console.log('Stats from API:',statsData);
       setStats(statsData)
       setPendingUsers(pendingData)
       setMembers(membersData)
@@ -66,6 +63,7 @@ export default function AdminDashboard() {
     { key: 'events' as TabKey, label: 'Events', icon: Calendar },
     { key: 'projects' as TabKey, label: 'Projects', icon: Zap },
     { key: 'blogs' as TabKey, label: 'Blogs', icon: BookOpen },
+    { key:'Tags' as TabKey, label:'Tags',icon:Tag},
     { key: 'settings' as TabKey, label: 'Settings', icon: Settings },
   ]
 
