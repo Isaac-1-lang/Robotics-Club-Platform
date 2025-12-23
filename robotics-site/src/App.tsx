@@ -13,10 +13,11 @@ import ProjectsPage from './pages/ProjectsPage'
 import RegisterPage from './pages/RegisterPage'
 import TeamPage from './pages/TeamPage'
 import BlogsPage from './pages/BlogsPage'
+import MemberDashboard from './pages/MemberDashboard'
 
 function App() {
   const location = useLocation();
-  const isAdmin = location.pathname.startsWith('/admin');
+  const isAdmin = location.pathname.startsWith('/admin') || location.pathname.startsWith('/member');
   const isAuthPage = ['/login', '/register'].includes(location.pathname);
 
   return (
@@ -61,6 +62,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/member" element={<MemberDashboard />} />
           <Route path="/blogs" element={<BlogsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

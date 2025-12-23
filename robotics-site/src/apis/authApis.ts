@@ -31,14 +31,11 @@ export interface ProfileData {
 }
 
 export interface PasswordData {
-  currentPassword?: string; // Optional if backend doesn't require it for simple reset, but usually good practice
+  currentPassword?: string;
   newPassword?: string;
 }
 
 export const updateProfile = async (data: ProfileData) => {
-  // If avatar is included, we might need FormData. 
-  // For now assuming JSON or simple update if avatar logic is handled separately or not at all yet.
-  // Let's assume standard JSON body for text fields.
   const response = await apiClient.patch('/auth/profile', data);
   return response.data;
 }
