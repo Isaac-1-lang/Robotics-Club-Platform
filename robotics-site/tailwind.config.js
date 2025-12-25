@@ -1,6 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{ts,tsx,js,jsx}'],
+  content: ['./index.html', './src/**/*.{ts,tsx,js,jsx}', // All JS/TS/React files in src
+    "./pages/**/*.{js,ts,jsx,tsx}", // For Next.js pages
+    "./components/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {

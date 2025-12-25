@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@sanity/image-url": "^2.0.2",
     "framer-motion": "^11.11.17",
     "lucide-react": "^0.469.0",
+    "next-sanity": "^12.0.5",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.0.2"

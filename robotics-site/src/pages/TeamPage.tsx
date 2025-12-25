@@ -1,9 +1,51 @@
+import { useEffect, useState } from 'react'
 import { Users } from 'lucide-react'
+import { sanityClient, urlFor } from '../lib/sanity'
 import { Card } from '../components/ui/Card'
 import { Section } from '../components/ui/Section'
-import { team } from '../data/content'
+
+interface SanityTeamMember {
+  _id: string
+  name: string
+  role: string
+  bio: string
+  image: any
+}
 
 export default function TeamPage() {
+  const [team, setTeam] = useState<SanityTeamMember[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchTeam = async () => {
+      try {
+        const query = `*[_type == "team"] | order(order asc) {
+          _id,
+          name,
+          role,
+          bio,
+          image
+        }`
+        const result = await sanityClient.fetch(query)
+        setTeam(result)
+      } catch (error) {
+        console.error('Error fetching team:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchTeam()
+  }, [])
+
+  if (loading) {
+    return (
+      <Section title="Meet the Team" eyebrow="Loading...">
+        <p className="text-text-muted">Loading team members...</p>
+      </Section>
+    )
+  }
+
   return (
     <>
       <Section
@@ -14,13 +56,24 @@ export default function TeamPage() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {team.map((member) => (
             <Card
-              key={member.name}
+              key={member._id}
               className="p-6 transition hover:-translate-y-1 hover:shadow-lg"
             >
               <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent/20 text-lg font-bold text-primary">
-                  {member.name.charAt(0)}
-                </div>
+                {member.image ? (
+                  <div className="h-12 w-12 overflow-hidden rounded-full">
+                    <img
+                      src={urlFor(member.image).width(100).height(100).url()}
+                      alt={member.name}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent/20 text-lg font-bold text-primary">
+                    {member.name.charAt(0)}
+                  </div>
+                )}
+
                 <div>
                   <p className="text-sm font-semibold text-primary">
                     {member.role}
