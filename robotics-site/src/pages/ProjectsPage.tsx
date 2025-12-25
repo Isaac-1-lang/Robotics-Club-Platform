@@ -1,13 +1,12 @@
 import { useMemo, useState, useEffect } from 'react'
 import { Filter, MessageCircle, ThumbsUp, Heart, Smile, Rocket, Zap, Star } from 'lucide-react'
-import { projects } from '../data/content'
-import type { ProjectCategory } from '../data/content'
+import { getProjects, type ProjectData } from '../apis/projectApis'
 import { Card } from '../components/ui/Card'
 import { Section } from '../components/ui/Section'
 import { buttonClasses } from '../components/ui/buttonStyles'
 import { Link } from 'react-router-dom'
 
-const categories: Array<ProjectCategory | 'All'> = [
+const categories: string[] = [
   'All',
   'AI',
   'Hardware',
@@ -42,14 +41,33 @@ const reactionConfig: Record<ReactionType, { icon: any; label: string; color: st
 }
 
 export default function ProjectsPage() {
-  const [activeCategory, setActiveCategory] = useState<ProjectCategory | 'All'>('All')
+  const [projects, setProjects] = useState<ProjectData[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [activeCategory, setActiveCategory] = useState<string>('All')
   const [comments, setComments] = useState<Comment[]>([])
   const [reactions, setReactions] = useState<Reaction[]>([])
   const [showComments, setShowComments] = useState<string | null>(null)
   const [showReactions, setShowReactions] = useState<string | null>(null)
   const [newComment, setNewComment] = useState({ author: '', text: '' })
 
+  // Fetch projects from API
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setIsLoading(true)
+        const data = await getProjects()
+        setProjects(data)
+      } catch (err) {
+        console.error('Failed to fetch projects:', err)
+        setError('Failed to load projects. Please try again later.')
+      } finally {
+        setIsLoading(false)
+      }
+    }
 
+    fetchProjects()
+  }, [])
 
   // Load comments and reactions from persistent storage
   useEffect(() => {
@@ -72,14 +90,12 @@ export default function ProjectsPage() {
     localStorage.setItem('projectReactions', JSON.stringify(reactionsToSave))
   }
 
-  // Save comments
-
-  // Save reactions
-
   const filteredProjects = useMemo(() => {
     if (activeCategory === 'All') return projects
-    return projects.filter((project) => project.mainTag === activeCategory)
-  }, [activeCategory])
+    return projects.filter((project) =>
+      project.mainTag?.name?.toLowerCase() === activeCategory.toLowerCase()
+    )
+  }, [activeCategory, projects])
 
   const handleAddComment = (projectId: string) => {
     if (!newComment.author.trim() || !newComment.text.trim()) return
@@ -133,6 +149,26 @@ export default function ProjectsPage() {
     return getProjectReactions(projectId).reduce((sum, r) => sum + r.count, 0)
   }
 
+  if (isLoading) {
+    return (
+      <Section title="Robotics Projects" eyebrow="Builds & research" description="Loading projects...">
+        <div className="flex justify-center py-12">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+        </div>
+      </Section>
+    )
+  }
+
+  if (error) {
+    return (
+      <Section title="Robotics Projects" eyebrow="Builds & research" description="Something went wrong.">
+        <div className="flex justify-center py-12 text-red-500">
+          {error}
+        </div>
+      </Section>
+    )
+  }
+
   return (
     <>
       <Section
@@ -165,35 +201,44 @@ export default function ProjectsPage() {
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filteredProjects.map((project) => {
-            const projectComments = getProjectComments(project.id)
-            const projectReactions = getProjectReactions(project.id)
-            const totalReactions = getTotalReactions(project.id)
-            const isCommentsOpen = showComments === project.id
-            const isReactionsOpen = showReactions === project.id
+            const projectComments = getProjectComments(project._id)
+            const projectReactions = getProjectReactions(project._id)
+            const totalReactions = getTotalReactions(project._id)
+            const isCommentsOpen = showComments === project._id
+            const isReactionsOpen = showReactions === project._id
 
             return (
               <Card
-                key={project.id}
+                key={project._id}
                 className="flex h-full flex-col overflow-hidden transition hover:-translate-y-1 hover:shadow-lg"
               >
-                <div className="h-36 bg-gradient-to-br from-primary/10 via-accent/15 to-white" />
+                {project.imageUrl ? (
+                  <img
+                    src={project.imageUrl}
+                    alt={project.title}
+                    className="h-36 w-full object-cover"
+                  />
+                ) : (
+                  <div className="h-36 bg-gradient-to-br from-primary/10 via-accent/15 to-white" />
+                )}
+
                 <div className="flex flex-1 flex-col space-y-3 p-6">
                   <div className="inline-flex w-fit rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-primary">
-                    {project.mainTag}
+                    {project.mainTag?.name}
                   </div>
                   <h3 className="text-xl font-bold text-text-primary">
                     {project.title}
                   </h3>
-                  <p className="text-sm text-text-muted leading-relaxed">
-                    {project.description}
+                  <p className="text-sm text-text-muted leading-relaxed line-clamp-3">
+                    {project.content}
                   </p>
                   <div className="mt-auto flex flex-wrap gap-2">
-                    {project.tags.map((mainTag) => (
+                    {project.tags.map((tag) => (
                       <span
-                        key={mainTag}
+                        key={tag._id}
                         className="rounded-full bg-background px-3 py-1 text-xs font-semibold text-text-muted"
                       >
-                        {mainTag}
+                        {tag.name}
                       </span>
                     ))}
                   </div>
@@ -215,21 +260,21 @@ export default function ProjectsPage() {
                       })}
                     </div>
                   )}
-                  
+
                   <div className="mt-4 flex items-center justify-between">
-                    <Link to={`/projects/${project.id}`} className="text-sm text-blue-500">
+                    <Link to={`/projects/${project._id}`} className="text-sm text-blue-500">
                       Read more
                     </Link>
                     <div className="flex items-center gap-3">
                       <button
-                        onClick={() => setShowReactions(isReactionsOpen ? null : project.id)}
+                        onClick={() => setShowReactions(isReactionsOpen ? null : project._id)}
                         className="flex items-center gap-1 text-sm text-text-muted hover:text-primary transition"
                       >
                         <Heart className="h-4 w-4" />
                         {totalReactions}
                       </button>
                       <button
-                        onClick={() => setShowComments(isCommentsOpen ? null : project.id)}
+                        onClick={() => setShowComments(isCommentsOpen ? null : project._id)}
                         className="flex items-center gap-1 text-sm text-text-muted hover:text-primary transition"
                       >
                         <MessageCircle className="h-4 w-4" />
@@ -246,11 +291,11 @@ export default function ProjectsPage() {
                         {(Object.keys(reactionConfig) as ReactionType[]).map((type) => {
                           const { icon: Icon, label, color } = reactionConfig[type]
                           const reactionCount = projectReactions.find((r) => r.type === type)?.count || 0
-                          
+
                           return (
                             <button
                               key={type}
-                              onClick={() => handleReaction(project.id, type)}
+                              onClick={() => handleReaction(project._id, type)}
                               className="flex flex-col items-center gap-1 rounded-lg border border-gray-200 p-3 hover:bg-gray-50 hover:border-primary transition"
                             >
                               <Icon className={`h-5 w-5 ${color}`} />
@@ -269,7 +314,7 @@ export default function ProjectsPage() {
                   {isCommentsOpen && (
                     <div className="mt-4 space-y-3 border-t pt-4">
                       <h4 className="font-semibold text-sm text-text-primary">Comments</h4>
-                      
+
                       <div className="space-y-2 max-h-48 overflow-y-auto">
                         {projectComments.length === 0 ? (
                           <p className="text-xs text-text-muted">No comments yet. Be the first!</p>
@@ -302,7 +347,7 @@ export default function ProjectsPage() {
                           rows={3}
                         />
                         <button
-                          onClick={() => handleAddComment(project.id)}
+                          onClick={() => handleAddComment(project._id)}
                           className={buttonClasses({ variant: 'primary' }) + ' w-full text-xs'}
                         >
                           Post Comment
