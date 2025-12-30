@@ -4,10 +4,17 @@ import imageUrlBuilder from '@sanity/image-url'
 export const sanityClient = createClient({
   projectId: '1sm7gbez',
   dataset: 'production',
-  useCdn: true, // set to false for fresh data handling
+  useCdn: false, // set to false for fresh data handling
   apiVersion: '2025-12-19',
   token: import.meta.env.VITE_SANITY_API_TOKEN,
   ignoreBrowserTokenWarning: true,
+})
+
+// DIAGNOSTIC LOGGING
+console.log('Sanity Config Check:', {
+  projectId: '1sm7gbez',
+  dataset: 'production',
+  hasToken: !!import.meta.env.VITE_SANITY_API_TOKEN
 })
 
 const builder = imageUrlBuilder(sanityClient)

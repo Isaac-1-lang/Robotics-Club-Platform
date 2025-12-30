@@ -57,10 +57,19 @@ export default function ProjectsPage() {
       try {
         setIsLoading(true)
         const data = await getProjects()
+        console.log('Sanity Projects Fetched:', data)
         setProjects(data)
-      } catch (err) {
+      } catch (err: any) {
         console.error('Failed to fetch projects:', err)
-        setError('Failed to load projects. Please try again later.')
+        let errorMessage = 'Failed to load projects.'
+
+        if (err.message && err.message.includes('Network Error')) {
+          errorMessage = 'Network Error: Check Sanity CORS settings.'
+        } else if (err.statusCode === 401 || err.statusCode === 403) {
+          errorMessage = 'Access Denied: Check API Token.'
+        }
+
+        setError(errorMessage)
       } finally {
         setIsLoading(false)
       }

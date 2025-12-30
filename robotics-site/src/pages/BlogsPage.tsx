@@ -25,10 +25,19 @@ export default function BlogsPage() {
       try {
         setIsLoading(true)
         const data = await getPosts()
+        console.log('Sanity Posts Fetched:', data)
         setPosts(data)
-      } catch (err) {
+      } catch (err: any) {
         console.error('Failed to fetch posts:', err)
-        setError('Failed to load posts. Please try again later.')
+        let errorMessage = 'Failed to load posts.'
+
+        if (err.message && err.message.includes('Network Error')) {
+          errorMessage = 'Network Error: Only localhost is allowed? Check Sanity CORS settings.'
+        } else if (err.statusCode === 401 || err.statusCode === 403) {
+          errorMessage = 'Access Denied: Check your API Token or Dataset privacy.'
+        }
+
+        setError(errorMessage)
       } finally {
         setIsLoading(false)
       }
@@ -95,48 +104,55 @@ export default function BlogsPage() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredPosts.map((post) => (
-            <Card
-              key={post._id}
-              className="flex h-full flex-col overflow-hidden transition hover:-translate-y-1 hover:shadow-lg"
-            >
-              {post.imageUrl ? (
-                <img
-                  src={post.imageUrl}
-                  alt={post.title}
-                  className="h-36 w-full object-cover"
-                />
-              ) : (
-                <div className="h-36 bg-gradient-to-br from-primary/10 via-accent/15 to-white" />
-              )}
+          {filteredPosts.length > 0 ? (
+            filteredPosts.map((post) => (
+              <Card
+                key={post._id}
+                className="flex h-full flex-col overflow-hidden transition hover:-translate-y-1 hover:shadow-lg"
+              >
+                {post.imageUrl ? (
+                  <img
+                    src={post.imageUrl}
+                    alt={post.title}
+                    className="h-36 w-full object-cover"
+                  />
+                ) : (
+                  <div className="h-36 bg-gradient-to-br from-primary/10 via-accent/15 to-white" />
+                )}
 
-              <div className="flex flex-1 flex-col space-y-3 p-6">
-                <div className="inline-flex w-fit rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-primary">
-                  {post.mainTag?.name}
+                <div className="flex flex-1 flex-col space-y-3 p-6">
+                  <div className="inline-flex w-fit rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-primary">
+                    {post.mainTag?.name}
+                  </div>
+                  <h3 className="text-xl font-bold text-text-primary">
+                    {post.title}
+                  </h3>
+                  <p className="text-sm text-text-muted leading-relaxed line-clamp-3">
+                    {post.content}
+                  </p>
+                  <div className="mt-auto flex flex-wrap gap-2">
+                    {post.tags.map((tag) => (
+                      <span
+                        key={tag._id}
+                        className="rounded-full bg-background px-3 py-1 text-xs font-semibold text-text-muted"
+                      >
+                        {tag.name}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mt-4 flex items-center justify-between text-xs text-text-muted">
+                    <span>By {post.author.username}</span>
+                    <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold text-text-primary">
-                  {post.title}
-                </h3>
-                <p className="text-sm text-text-muted leading-relaxed line-clamp-3">
-                  {post.content}
-                </p>
-                <div className="mt-auto flex flex-wrap gap-2">
-                  {post.tags.map((tag) => (
-                    <span
-                      key={tag._id}
-                      className="rounded-full bg-background px-3 py-1 text-xs font-semibold text-text-muted"
-                    >
-                      {tag.name}
-                    </span>
-                  ))}
-                </div>
-                <div className="mt-4 flex items-center justify-between text-xs text-text-muted">
-                  <span>By {post.author.username}</span>
-                  <span>{new Date(post.createdAt).toLocaleDateString()}</span>
-                </div>
-              </div>
-            </Card>
-          ))}
+              </Card>
+            ))
+          ) : (
+            <div className="col-span-full py-12 text-center text-text-muted">
+              <p>No blogs found.</p>
+              <p className="text-sm mt-2">If you recently added content, make sure it is <strong>Published</strong> in Sanity Studio.</p>
+            </div>
+          )}
         </div>
       </Section>
     </>
