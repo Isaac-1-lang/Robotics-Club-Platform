@@ -91,7 +91,7 @@ export default function TeamPage() {
           ))}
         </div>
         <p>
-        // Display more members when More others is click, Display only like 6 then if more is clicked show all members as fetched.
+        
         </p>
       </Section>
 
