@@ -29,8 +29,8 @@ export default function MemberDashboard() {
         getPosts()
       ])
       setTags(tagsData)
-      setProjects(projectsData)
-      setPosts(postsData)
+      setProjects(projectsData.projects)
+      setPosts(postsData.posts)
     } catch (error) {
       console.error('Failed to fetch data:', error)
       toast.error('Failed to load dashboard data')

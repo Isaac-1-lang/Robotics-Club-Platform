@@ -38,8 +38,8 @@ export default function AdminDashboard() {
       setPendingUsers(pendingData)
       setMembers(membersData)
       setTags(tagsData)
-      setProjects(projectsData)
-      setPosts(postsData)
+      setProjects(projectsData.projects)
+      setPosts(postsData.posts)
     } catch (error) {
       console.error('Failed to fetch admin data:', error)
       toast.error('Failed to load dashboard data')
@@ -111,7 +111,7 @@ export default function AdminDashboard() {
 
   // Projects Management
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false)
-  const [editingProject, setEditingProject] = useState<ProjectData | null>(null)
+  const [editingProject, setEditingProject] = useState<ProjectData | null>(null);
 
   // Settings State
   const [activeSettingsTab, setActiveSettingsTab] = useState<'profile' | 'security' | 'notifications'>('profile')

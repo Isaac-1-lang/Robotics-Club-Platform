@@ -1,36 +1,17 @@
 import { useEffect, useState } from 'react'
 import { Calendar, MapPin, Trophy } from 'lucide-react'
-import { sanityClient } from '../lib/sanity'
+import { getEvents, type EventData } from '../apis/eventsApi'
 import { Card } from '../components/ui/Card'
 import { Section } from '../components/ui/Section'
 
-interface SanityEvent {
-  _id: string
-  title: string
-  slug: { current: string }
-  description: string
-  date: string
-  location: string
-  status: 'upcoming' | 'past'
-}
-
 export default function EventsPage() {
-  const [events, setEvents] = useState<SanityEvent[]>([])
+  const [events, setEvents] = useState<EventData[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const query = `*[_type == "event"] | order(date desc) {
-                _id,
-                title,
-                slug,
-                description,
-                date,
-                location,
-                status
-            }`
-        const result = await sanityClient.fetch(query)
+        const result = await getEvents()
         setEvents(result)
       } catch (error) {
         console.error('Error fetching events:', error)

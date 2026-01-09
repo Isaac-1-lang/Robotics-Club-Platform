@@ -22,8 +22,8 @@ export default function HomePage() {
           getProjects(),
           getPosts()
         ])
-        setProjects(projectsData)
-        setPosts(postsData)
+        setProjects(projectsData.projects)
+        setPosts(postsData.posts)
       } catch (err: any) {
         console.error('Failed to fetch data:', err)
         let errorMessage = 'Failed to load content.'
@@ -84,7 +84,7 @@ export default function HomePage() {
                     className: 'border-white/40 text-white hover:text-white',
                   })}
                 >
-                  Admin / Member Login
+                  Login
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -110,9 +110,7 @@ export default function HomePage() {
               <div className="relative flex h-full items-center justify-center">
                 <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/10 p-6 backdrop-blur">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 text-white">
-                      <img src="/logoWhite.png" className="h-10 w-10" />
-                    </div>
+                    <img src="/image.png" className="h-11 w-11 rounded-full" />
                     <div>
                       <p className="text-sm text-slate-200">Project Spotlight</p>
                       <p className="text-lg font-semibold">AI Vision Rover</p>
@@ -188,7 +186,7 @@ export default function HomePage() {
                     <p className="text-sm text-text-muted leading-relaxed line-clamp-3">
                       {project.content}
                     </p>
-                    <div className="flex flex-wrap gap-2">
+                    {/*  <div className="flex flex-wrap gap-2">
                       {project.tags.slice(0, 3).map((tag) => (
                         <span
                           key={tag._id}
@@ -197,7 +195,7 @@ export default function HomePage() {
                           {tag.name}
                         </span>
                       ))}
-                    </div>
+                    </div> */}
                   </div>
                 </Card>
               </motion.div>

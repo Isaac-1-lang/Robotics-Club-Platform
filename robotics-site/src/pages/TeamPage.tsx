@@ -1,32 +1,17 @@
 import { useEffect, useState } from 'react'
 import { Users } from 'lucide-react'
-import { sanityClient, urlFor } from '../lib/sanity'
+import { getTeam, type TeamMember } from '../apis/teamApi'
 import { Card } from '../components/ui/Card'
 import { Section } from '../components/ui/Section'
 
-interface SanityTeamMember {
-  _id: string
-  name: string
-  role: string
-  bio: string
-  image: any
-}
-
 export default function TeamPage() {
-  const [team, setTeam] = useState<SanityTeamMember[]>([])
+  const [team, setTeam] = useState<TeamMember[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchTeam = async () => {
       try {
-        const query = `*[_type == "team"] | order(order asc) {
-          _id,
-          name,
-          role,
-          bio,
-          image
-        }`
-        const result = await sanityClient.fetch(query)
+        const result = await getTeam()
         setTeam(result)
       } catch (error) {
         console.error('Error fetching team:', error)
@@ -63,7 +48,7 @@ export default function TeamPage() {
                 {member.image ? (
                   <div className="h-12 w-12 overflow-hidden rounded-full">
                     <img
-                      src={urlFor(member.image).width(100).height(100).url()}
+                      src={member.image}
                       alt={member.name}
                       className="h-full w-full object-cover"
                     />
@@ -87,11 +72,11 @@ export default function TeamPage() {
                 {member.bio}
               </p>
             </Card>
-            
+
           ))}
         </div>
         <p>
-        
+
         </p>
       </Section>
 

@@ -39,13 +39,12 @@ export default function Navbar() {
           className="flex items-center gap-3"
           onClick={() => setOpen(false)}
         >
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-white shadow-soft">
             <img
-              src="/logoWhite.png"
+              src="/image.png"
               alt="Robotics Club Logo"
-              className="h-10 w-10"
+              className="h-11 w-11 rounded-full"
             />
-          </div>
+          
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-text-muted">
               RCA

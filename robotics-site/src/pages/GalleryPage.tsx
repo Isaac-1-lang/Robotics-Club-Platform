@@ -1,30 +1,17 @@
 import { useEffect, useState } from 'react'
 import { Image } from 'lucide-react'
-import { sanityClient, urlFor } from '../lib/sanity'
+import { getGallery, type GalleryItem } from '../apis/galleryApi'
 import { Card } from '../components/ui/Card'
 import { Section } from '../components/ui/Section'
 
-interface SanityGalleryItem {
-  _id: string
-  title: string
-  description: string
-  image: any
-}
-
 export default function GalleryPage() {
-  const [gallery, setGallery] = useState<SanityGalleryItem[]>([])
+  const [gallery, setGallery] = useState<GalleryItem[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchGallery = async () => {
       try {
-        const query = `*[_type == "gallery"]{
-                  _id,
-                  title,
-                  description,
-                  image
-              }`
-        const result = await sanityClient.fetch(query)
+        const result = await getGallery()
         setGallery(result)
       } catch (error) {
         console.error('Error fetching gallery:', error)
@@ -58,7 +45,7 @@ export default function GalleryPage() {
             {item.image ? (
               <div className="aspect-[4/3] w-full overflow-hidden">
                 <img
-                  src={urlFor(item.image).width(600).height(450).url()}
+                  src={item.image}
                   alt={item.title}
                   className="h-full w-full object-cover"
                 />
