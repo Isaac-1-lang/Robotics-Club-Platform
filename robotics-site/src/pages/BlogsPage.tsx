@@ -26,7 +26,7 @@ export default function BlogsPage() {
         setIsLoading(true)
         const data = await getPosts()
         console.log('Sanity Posts Fetched:', data)
-        setPosts(data)
+        setPosts(data.posts)
       } catch (err: any) {
         console.error('Failed to fetch posts:', err)
         let errorMessage = 'Failed to load posts.'
