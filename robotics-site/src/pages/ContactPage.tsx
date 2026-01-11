@@ -28,16 +28,16 @@ export default function ContactPage() {
     }
   });
 
-  const mutation = useMutation({
-    mutationFn: sendContactMessage,
-    onSuccess: () => {
-      toast.success('Your message has been sent successfully');
-      reset();
-    },
-    onError: () => {
-      toast.error('Message failed to send. Please try again.');
-    }
-  });
+    const mutation = useMutation({
+      mutationFn: sendContactMessage,
+      onSuccess: () => {
+        toast.success('Your message has been sent successfully');
+        reset();
+      },
+      onError: () => {
+        toast.error('Message failed to send. Please try again.');
+      }
+    });
 
   const onSubmit = (data:ContactFormData) => {
     mutation.mutateAsync(data);

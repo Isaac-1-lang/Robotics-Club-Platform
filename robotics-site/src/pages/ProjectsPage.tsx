@@ -58,7 +58,7 @@ export default function ProjectsPage() {
         setIsLoading(true)
         const data = await getProjects()
         console.log('Sanity Projects Fetched:', data)
-        setProjects(data)
+        setProjects(data.projects)
       } catch (err: any) {
         console.error('Failed to fetch projects:', err)
         let errorMessage = 'Failed to load projects.'

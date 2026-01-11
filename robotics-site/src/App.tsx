@@ -13,7 +13,7 @@ import ProjectsPage from './pages/ProjectsPage'
 import RegisterPage from './pages/RegisterPage'
 import TeamPage from './pages/TeamPage'
 import BlogsPage from './pages/BlogsPage'
-import MemberDashboard from './pages/MemberDashboard'
+import MemberDashboard from './pages/MemberDashboard';
 
 function App() {
   const location = useLocation();
