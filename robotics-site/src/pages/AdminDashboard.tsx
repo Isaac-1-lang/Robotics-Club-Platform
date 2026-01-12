@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { getPendingUsers, approveUser, rejectUser, getDashboardStats, getSystemTags, createSystemTags, updateSystemTags, deleteSystemTags, type PendingUser, type DashboardStats, type TagData } from '../apis/adminApi'
 import { updateProfile, changePassword } from '../apis/authApis'
 import { getMembers, type MemberData } from '../apis/membersApi'
-import { getProjects, createProject, updateProject, deleteProject, type ProjectData } from '../apis/projectApis'
+import { getProjects, createProject, updateProject, deleteProject, uploadProjectImage, type ProjectData } from '../apis/projectApis'
 import { getPosts, createPost, updatePost, deletePost, type PostData } from '../apis/postsApi'
 import toast from 'react-hot-toast'
 
@@ -157,17 +157,59 @@ export default function AdminDashboard() {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
 
-    // Determine mainTag as first selected tag or logic
-    // For simplicity, we just pass the formData as is, but we need to ensure the API receives what it expects.
-    // The createProject API expects FormData directly if the backend handles it.
-    // Looking at projectApis.ts: createProject(projectData: FormData)
-
     try {
       if (editingProject) {
+        // For updates, still use FormData (keeping existing update behavior)
         await updateProject(editingProject._id, formData)
         toast.success('Project updated')
       } else {
-        await createProject(formData)
+        // Extract form data for project creation
+        const title = formData.get('title') as string
+        const content = formData.get('content') as string
+        const mainTagId = formData.get('mainTag') as string
+        const tagIds = formData.getAll('tags') as string[]
+        const imageFile = formData.get('image') as File | null
+
+        // Validate mainTag is provided
+        if (!mainTagId || mainTagId.trim() === '') {
+          toast.error('Please select a main category')
+          return
+        }
+
+        // Map tag IDs to tag names
+        const mainTagObj = tags.find(tag => tag._id === mainTagId)
+        const mainTagName = mainTagObj?.name || mainTagId
+
+        const tagNames = tagIds
+          .map(tagId => {
+            const tagObj = tags.find(tag => tag._id === tagId)
+            return tagObj?.name || tagId
+          })
+          .filter(Boolean) // Remove any undefined values
+
+        // Prepare payload
+        const payload = {
+          title,
+          content,
+          mainTag: mainTagName,
+          tags: tagNames
+        }
+
+        console.log('Project creation payload:', payload)
+        console.log('Title:', title)
+        console.log('Content:', content)
+        console.log('MainTag ID:', mainTagId, '-> Name:', mainTagName)
+        console.log('Tag IDs:', tagIds, '-> Names:', tagNames)
+        console.log('ImageFile:', imageFile)
+
+        // Create project with JSON payload (without image)
+        const createdProject = await createProject(payload)
+
+        // Upload image separately if provided
+        if (imageFile && imageFile.size > 0) {
+          await uploadProjectImage(createdProject._id, imageFile)
+        }
+        console.log(createdProject)
         toast.success('Project created')
       }
       setIsProjectModalOpen(false)
@@ -1311,6 +1353,7 @@ export default function AdminDashboard() {
                     <select
                       name="mainTag"
                       defaultValue={editingProject?.mainTag?._id}
+                      required
                       className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white"
                     >
                       <option value="">Select a tag...</option>

@@ -22,6 +22,14 @@ export interface ProjectResponse {
     totalPages:number;
   };
 }
+
+export interface CreateProjectPayload {
+  title: string;
+  content: string;
+  mainTag: string;
+  tags: string[];
+}
+
 // Get all projects
 export const getProjects = async (): Promise<ProjectResponse> => {
   const response = await apiClient.get<ProjectResponse>('/projects');
@@ -35,9 +43,18 @@ export const getProjectById = async (id: string): Promise<ProjectData> => {
 }
 
 // Create new project
-export const createProject = async (projectData: FormData): Promise<ProjectData> => {
-  // Assuming backend handles FormData with 'image' field for uploads
-  const response = await apiClient.post<ProjectData>('/projects', projectData, {
+export const createProject = async (projectData: CreateProjectPayload): Promise<ProjectData> => {
+  console.log('API call - createProject payload:', projectData);
+  const response = await apiClient.post<ProjectData>('/projects', projectData);
+  console.log('API call - createProject response:', response.data);
+  return response.data;
+}
+
+// Upload project image
+export const uploadProjectImage = async (id: string, imageFile: File): Promise<ProjectData> => {
+  const formData = new FormData();
+  formData.append('image', imageFile);
+  const response = await apiClient.post<ProjectData>(`/projects/${id}/image`, formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
   });
   return response.data;
