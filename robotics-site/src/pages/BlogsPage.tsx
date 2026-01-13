@@ -25,10 +25,8 @@ export default function BlogsPage() {
       try {
         setIsLoading(true)
         const data = await getPosts()
-        console.log('Sanity Posts Fetched:', data)
         setPosts(data.posts)
       } catch (err: any) {
-        console.error('Failed to fetch posts:', err)
         let errorMessage = 'Failed to load posts.'
 
         if (err.message && err.message.includes('Network Error')) {

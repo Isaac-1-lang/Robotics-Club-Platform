@@ -96,7 +96,7 @@ export default function ContactPage() {
                   className={`w-full rounded-xl border ${
                     errors.email ? 'border-red-500' : 'border-slate-200/80'
                   } bg-background px-4 py-3 text-sm text-text-primary outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/50`}
-                  placeholder="you@example.com"
+                  placeholder="me@rca.ac.rw"
                 />
                 {errors.email && (
                   <p className="text-sm text-red-500">{errors.email.message}</p>
@@ -165,8 +165,7 @@ export default function ContactPage() {
               <Send className="h-4 w-4" />
             </button>
             <p className="text-xs text-text-muted">
-              We respond within 2-3 business days. No backend is connected—this
-              form is for demo purposes.
+              We respond within 2-3 business days.
             </p>
           </form>
         </Card>

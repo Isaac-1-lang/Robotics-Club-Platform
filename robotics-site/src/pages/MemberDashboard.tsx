@@ -25,14 +25,13 @@ export default function MemberDashboard() {
       setIsLoading(true)
       const [tagsData, projectsData, postsData] = await Promise.all([
         getSystemTags(),
-        getProjects(), // Ideally this would be filtered by user if API supported it, or we filter client side
+        getProjects(), 
         getPosts()
       ])
       setTags(tagsData)
       setProjects(projectsData.projects)
       setPosts(postsData.posts)
     } catch (error) {
-      console.error('Failed to fetch data:', error)
       toast.error('Failed to load dashboard data')
     } finally {
       setIsLoading(false)
@@ -88,14 +87,6 @@ export default function MemberDashboard() {
           mainTag: mainTagName,
           tags: tagNames
         }
-
-        console.log('Project creation payload:', payload)
-        console.log('Title:', title)
-        console.log('Content:', content)
-        console.log('MainTag ID:', mainTagId, '-> Name:', mainTagName)
-        console.log('Tag IDs:', tagIds, '-> Names:', tagNames)
-        console.log('ImageFile:', imageFile)
-
         // Create project with JSON payload (without image)
         const createdProject = await createProject(payload)
 
@@ -110,7 +101,6 @@ export default function MemberDashboard() {
       setEditingProject(null)
       fetchData()
     } catch (error) {
-      console.error('Failed to save project:', error)
       toast.error('Failed to save project')
     }
   }
@@ -122,7 +112,6 @@ export default function MemberDashboard() {
       toast.success('Project deleted')
       fetchData()
     } catch (error) {
-      console.error('Failed to delete project:', error)
       toast.error('Failed to delete project')
     }
   }
@@ -146,7 +135,6 @@ export default function MemberDashboard() {
       setEditingPost(null)
       fetchData()
     } catch (error) {
-      console.error('Failed to save post:', error)
       toast.error('Failed to save post')
     }
   }
@@ -158,7 +146,6 @@ export default function MemberDashboard() {
       toast.success('Post deleted')
       fetchData()
     } catch (error) {
-      console.error('Failed to delete post:', error)
       toast.error('Failed to delete post')
     }
   }

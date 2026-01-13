@@ -26,7 +26,6 @@ export default function LoginPage() {
       localStorage.setItem('username', response.user.username)
       console.log(response.user.username)
       localStorage.setItem('email', response.user.email)
-      console.log(response.user.email)
       if(response.user.role=="admin"){
         // Navigate to the /admin portal
         navigate('/admin')

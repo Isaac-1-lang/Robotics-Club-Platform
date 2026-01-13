@@ -25,7 +25,6 @@ export default function HomePage() {
         setProjects(projectsData.projects)
         setPosts(postsData.posts)
       } catch (err: any) {
-        console.error('Failed to fetch data:', err)
         let errorMessage = 'Failed to load content.'
 
         if (err.message && err.message.includes('Network Error')) {
@@ -186,7 +185,7 @@ export default function HomePage() {
                     <p className="text-sm text-text-muted leading-relaxed line-clamp-3">
                       {project.content}
                     </p>
-                    {/*  <div className="flex flex-wrap gap-2">
+                     <div className="flex flex-wrap gap-2">
                       {project.tags.slice(0, 3).map((tag) => (
                         <span
                           key={tag._id}
@@ -195,7 +194,7 @@ export default function HomePage() {
                           {tag.name}
                         </span>
                       ))}
-                    </div> */}
+                    </div>
                   </div>
                 </Card>
               </motion.div>

@@ -57,10 +57,8 @@ export default function ProjectsPage() {
       try {
         setIsLoading(true)
         const data = await getProjects()
-        console.log('Sanity Projects Fetched:', data)
         setProjects(data.projects)
       } catch (err: any) {
-        console.error('Failed to fetch projects:', err)
         let errorMessage = 'Failed to load projects.'
 
         if (err.message && err.message.includes('Network Error')) {
