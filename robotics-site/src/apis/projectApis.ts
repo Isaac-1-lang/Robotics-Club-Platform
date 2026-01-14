@@ -44,9 +44,7 @@ export const getProjectById = async (id: string): Promise<ProjectData> => {
 
 // Create new project
 export const createProject = async (projectData: CreateProjectPayload): Promise<ProjectData> => {
-  console.log('API call - createProject payload:', projectData);
   const response = await apiClient.post<ProjectData>('/projects', projectData);
-  console.log('API call - createProject response:', response.data);
   return response.data;
 }
 

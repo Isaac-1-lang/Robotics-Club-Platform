@@ -5,7 +5,7 @@ import { getPendingUsers, approveUser, rejectUser, getDashboardStats, getSystemT
 import { updateProfile, changePassword } from '../apis/authApis'
 import { getMembers, type MemberData } from '../apis/membersApi'
 import { getProjects, createProject, updateProject, deleteProject, uploadProjectImage, type ProjectData } from '../apis/projectApis'
-import { getPosts, createPost, updatePost, deletePost, type PostData } from '../apis/postsApi'
+import { getPosts, createPost, updatePost, deletePost, type PostData,uploadPostImage } from '../apis/postsApi'
 import toast from 'react-hot-toast'
 
 type TabKey = 'overview' | 'members' | 'requests' | 'events' | 'settings' | 'projects' | 'blogs' | 'Tags'
@@ -67,7 +67,14 @@ export default function AdminDashboard() {
       toast.error(`Failed to ${action} user`)
     }
   }
-
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('role')
+    localStorage.removeItem('username')
+    localStorage.removeItem('email')
+    // Redirect to login page
+    navigate('/login')
+  }
   // Tags Management
   const [isTagModalOpen, setIsTagModalOpen] = useState(false)
   const [editingTag, setEditingTag] = useState<TagData | null>(null)
@@ -124,14 +131,42 @@ export default function AdminDashboard() {
   const handleSavePost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
+  
     try {
       if (editingPost) {
         await updatePost(editingPost._id, formData)
         toast.success('Post updated')
       } else {
-        await createPost(formData)
+        // Map tag IDs to tag names
+        const title = (formData.get('title') as string) || ''
+        const content = (formData.get('content') as string) || ''
+        const mainTagId = (formData.get('mainTag') as string) || ''
+        const tagIds = formData.getAll('tags').map(v => v.toString())
+        const imageFile = formData.get('image')
+        
+        if (!mainTagId.trim()) {
+          toast.error('Please select a main category')
+          return
+        }
+  
+        const mainTagObj = tags.find(tag => tag._id === mainTagId)
+        const mainTagName = mainTagObj?.name || mainTagId
+  
+        const tagNames = tagIds
+          .map(tagId => tags.find(tag => tag._id === tagId)?.name || tagId)
+          .filter(Boolean)
+  
+        const payload = { title, content, mainTag: mainTagName, tags: tagNames }
+        const createdPost = await createPost(payload)
+  
+        if (imageFile instanceof File && imageFile.size > 0) {
+          await uploadPostImage(createdPost._id, imageFile)
+        }
+  
+        console.log(createdPost)
         toast.success('Post created')
       }
+  
       setIsPostModalOpen(false)
       setEditingPost(null)
       fetchData()
@@ -139,8 +174,7 @@ export default function AdminDashboard() {
       console.error('Failed to save post:', error)
       toast.error('Failed to save post')
     }
-  }
-
+  }  
   const handleDeletePost = async (postId: string) => {
     if (!confirm('Are you sure you want to delete this post?')) return
     try {
@@ -195,12 +229,7 @@ export default function AdminDashboard() {
           tags: tagNames
         }
 
-        console.log('Project creation payload:', payload)
-        console.log('Title:', title)
-        console.log('Content:', content)
-        console.log('MainTag ID:', mainTagId, '-> Name:', mainTagName)
-        console.log('Tag IDs:', tagIds, '-> Names:', tagNames)
-        console.log('ImageFile:', imageFile)
+        
 
         // Create project with JSON payload (without image)
         const createdProject = await createProject(payload)
@@ -296,17 +325,35 @@ export default function AdminDashboard() {
           </nav>
 
           {/* User Profile */}
-          <div className="p-4 border-t border-slate-100">
-            <div className="flex items-center gap-3">
-              <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold">
-                {(localStorage.getItem('username') || 'U').charAt(0).toUpperCase()}
-              </div>
-              <div className="overflow-hidden">
-                <p className="text-sm font-medium text-slate-900 truncate">{localStorage.getItem('username')}</p>
-                <p className="text-xs text-slate-500 truncate">{localStorage.getItem('role')}</p>
-              </div>
-            </div>
-          </div>
+          <div className="p-4 border-t border-slate-200 bg-white rounded-lg shadow-sm w-30">
+  <div className="flex items-center gap-3 mb-4 ">
+    {/* Avatar */}
+    <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold text-sm">
+      {(localStorage.getItem('username') || 'U').charAt(0).toUpperCase()}
+    </div>
+    
+    {/* User info */}
+    <div className="overflow-hidden">
+      <p className="text-sm font-medium text-slate-900 truncate">
+        {localStorage.getItem('username') || 'User'}
+      </p>
+      <p className="text-xs text-slate-500 truncate">
+        {localStorage.getItem('role') || 'Role'}
+      </p>
+    </div>
+  </div>
+
+  {/* Logout button */}
+  <button
+    className="w-full py-2 px-4 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700 transition-colors shadow-sm"
+    onClick={() => {
+      localStorage.clear()
+      window.location.reload()
+    }}
+  >
+    Logout
+  </button>
+</div>
         </div>
       </aside>
 
@@ -810,16 +857,6 @@ export default function AdminDashboard() {
                             <form className="space-y-6" onSubmit={async (e) => {
                               e.preventDefault();
                               const formData = new FormData(e.currentTarget);
-                              try {
-                                await updateProfile({
-                                  username: formData.get('username') as string,
-                                  email: formData.get('email') as string,
-                                  bio: formData.get('bio') as string,
-                                });
-                                toast.success('Profile updated successfully');
-                              } catch (err) {
-                                toast.error('Failed to update profile');
-                              }
                             }}>
                               <div className="flex items-center gap-6">
                                 <div className="h-20 w-20 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-2xl font-bold border-4 border-white shadow-sm">
@@ -840,15 +877,7 @@ export default function AdminDashboard() {
                                     name="username"
                                     defaultValue={localStorage.getItem('username') || ''}
                                     className="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
-                                  />
-                                </div>
-                                <div>
-                                  <label className="block text-sm font-medium text-slate-700 mb-2">Email</label>
-                                  <input
-                                    name="email"
-                                    type="email"
-                                    defaultValue="admin@robotics.com" // Placeholder/Mock
-                                    className="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                                    disabled
                                   />
                                 </div>
                               </div>
