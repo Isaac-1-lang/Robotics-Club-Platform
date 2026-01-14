@@ -35,18 +35,18 @@ export const getPosts = async (): Promise<PostResponse> => {
 }
 
 export const createPost = async (postData: CreatePostPayload): Promise<PostData> => {
-  const response = await apiClient.post<Post>('/posts',postData);
+  const response = await apiClient.post<PostData>('/posts',postData);
   return response.data;
 }
 
-export const updatePost = async (id: string, postData: FormData) => {
+export const updatePost = async (id: string, postData: FormData): Promise<PostData> => {
   const response = await apiClient.patch(`/posts/${id}`, postData, {
     headers: { 'Content-Type': 'multipart/form-data' }
   });
   return response.data;
 }
 
-export const deletePost = async (id: string) => {
+export const deletePost = async (id: string): Promise<void> => {
   const response = await apiClient.delete(`/posts/${id}`);
   return response.data;
 }
