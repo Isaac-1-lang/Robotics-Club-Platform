@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Calendar, Check, Clock, Users, ShieldCheck, Zap, LayoutDashboard, UserCheck, Menu, X, Settings, BookOpen, Search, Bell, MoreVertical, Loader, Tag, Plus, Trash2, Edit2, Image as ImageIcon, Lock, User, BellRing } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { getPendingUsers, approveUser, rejectUser, getDashboardStats, getSystemTags, createSystemTags, updateSystemTags, deleteSystemTags, type PendingUser, type DashboardStats, type TagData } from '../apis/adminApi'
-import { updateProfile, changePassword } from '../apis/authApis'
+import { changePassword } from '../apis/authApis'
 import { getMembers, type MemberData } from '../apis/membersApi'
 import { getProjects, createProject, updateProject, deleteProject, uploadProjectImage, type ProjectData } from '../apis/projectApis'
 import { getPosts, createPost, updatePost, deletePost, type PostData,uploadPostImage } from '../apis/postsApi'
@@ -41,7 +41,6 @@ export default function AdminDashboard() {
       setProjects(projectsData.projects)
       setPosts(postsData.posts)
     } catch (error) {
-      console.error('Failed to fetch admin data:', error)
       toast.error('Failed to load dashboard data')
     } finally {
       setIsLoading(false)
@@ -63,17 +62,8 @@ export default function AdminDashboard() {
       }
       fetchData()
     } catch (error) {
-      console.error(`Failed to ${action} user:`, error)
       toast.error(`Failed to ${action} user`)
     }
-  }
-  const handleLogout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('role')
-    localStorage.removeItem('username')
-    localStorage.removeItem('email')
-    // Redirect to login page
-    navigate('/login')
   }
   // Tags Management
   const [isTagModalOpen, setIsTagModalOpen] = useState(false)
@@ -99,7 +89,6 @@ export default function AdminDashboard() {
       setEditingTag(null)
       fetchData()
     } catch (error) {
-      console.error('Failed to save tag:', error)
       toast.error('Failed to save tag')
     }
   }
@@ -111,7 +100,6 @@ export default function AdminDashboard() {
       toast.success('Tag deleted')
       fetchData()
     } catch (error) {
-      console.error('Failed to delete tag:', error)
       toast.error('Failed to delete tag')
     }
   }
@@ -162,8 +150,6 @@ export default function AdminDashboard() {
         if (imageFile instanceof File && imageFile.size > 0) {
           await uploadPostImage(createdPost._id, imageFile)
         }
-  
-        console.log(createdPost)
         toast.success('Post created')
       }
   
@@ -171,7 +157,6 @@ export default function AdminDashboard() {
       setEditingPost(null)
       fetchData()
     } catch (error) {
-      console.error('Failed to save post:', error)
       toast.error('Failed to save post')
     }
   }  
@@ -182,7 +167,6 @@ export default function AdminDashboard() {
       toast.success('Post deleted')
       fetchData()
     } catch (error) {
-      console.error('Failed to delete post:', error)
       toast.error('Failed to delete post')
     }
   }
@@ -238,14 +222,12 @@ export default function AdminDashboard() {
         if (imageFile && imageFile.size > 0) {
           await uploadProjectImage(createdProject._id, imageFile)
         }
-        console.log(createdProject)
         toast.success('Project created')
       }
       setIsProjectModalOpen(false)
       setEditingProject(null)
       fetchData()
     } catch (error) {
-      console.error('Failed to save project:', error)
       toast.error('Failed to save project')
     }
   }
@@ -257,7 +239,6 @@ export default function AdminDashboard() {
       toast.success('Project deleted')
       fetchData()
     } catch (error) {
-      console.error('Failed to delete project:', error)
       toast.error('Failed to delete project')
     }
   }
@@ -856,7 +837,6 @@ export default function AdminDashboard() {
 
                             <form className="space-y-6" onSubmit={async (e) => {
                               e.preventDefault();
-                              const formData = new FormData(e.currentTarget);
                             }}>
                               <div className="flex items-center gap-6">
                                 <div className="h-20 w-20 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-2xl font-bold border-4 border-white shadow-sm">

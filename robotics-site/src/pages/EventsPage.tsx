@@ -14,7 +14,6 @@ export default function EventsPage() {
         const result = await getEvents()
         setEvents(result)
       } catch (error) {
-        console.error('Error fetching events:', error)
       } finally {
         setLoading(false)
       }

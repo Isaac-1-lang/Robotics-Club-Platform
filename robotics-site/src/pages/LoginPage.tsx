@@ -25,7 +25,6 @@ export default function LoginPage() {
         localStorage.setItem('token', response.token)
       localStorage.setItem('role', response.user.role)
       localStorage.setItem('username', response.user.username)
-      console.log(response.user.username)
       localStorage.setItem('email', response.user.email)
       if(response.user.role=="admin"){
         // Navigate to the /admin portal
@@ -39,8 +38,7 @@ export default function LoginPage() {
       }
     } catch (error: any) {
       setMessage(error.response?.data?.message || 'Login failed. Please try again.');
-      console.error('Login error:', error);
-    }
+    } 
   }
 
   return (

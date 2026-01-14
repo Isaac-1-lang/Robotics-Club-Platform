@@ -14,7 +14,6 @@ export default function GalleryPage() {
         const result = await getGallery()
         setGallery(result)
       } catch (error) {
-        console.error('Error fetching gallery:', error)
       } finally {
         setLoading(false)
       }

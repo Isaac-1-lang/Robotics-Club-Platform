@@ -19,7 +19,6 @@ export const login = async (data: LoginData) => {
 
 export const register = async (data: RegisterData) => {
   const response = await apiClient.post('/auth/register', data);
-  console.log(response.data)
   return response.data;
 }
 

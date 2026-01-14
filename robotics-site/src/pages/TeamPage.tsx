@@ -14,7 +14,6 @@ export default function TeamPage() {
         const result = await getTeam()
         setTeam(result)
       } catch (error) {
-        console.error('Error fetching team:', error)
       } finally {
         setLoading(false)
       }
