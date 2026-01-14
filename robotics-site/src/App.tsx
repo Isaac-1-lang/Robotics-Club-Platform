@@ -50,7 +50,7 @@ function App() {
       {!isAdmin && (
         <Navbar />
       )}
-      <main className={isAdmin ? "" : "pt-24 pb-16"}>
+      <main className={isAdmin ? "" : "pt-4"}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />

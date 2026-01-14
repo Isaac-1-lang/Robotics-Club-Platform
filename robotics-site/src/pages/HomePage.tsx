@@ -32,9 +32,6 @@ export default function HomePage() {
         } else if (err.statusCode === 401 || err.statusCode === 403) {
           errorMessage = 'Access Denied: Check API Token.'
         }
-
-        // Don't block UI entirely, just log error for now or show toaster in real app
-        // We'll set a state to optionally show a banner
         setError(errorMessage)
       } finally {
         setIsLoading(false)
@@ -50,7 +47,7 @@ export default function HomePage() {
 
   return (
     <>
-      <Section className="pt-10">
+      <Section >
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/90 via-primary to-slate-900 px-6 py-12 sm:px-10 sm:py-16 shadow-soft">
           <div className="absolute inset-0 bg-[size:40px_40px] bg-grid-glow opacity-30" />
           <div className="relative grid gap-10 lg:grid-cols-2">

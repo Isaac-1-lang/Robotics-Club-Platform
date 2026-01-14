@@ -20,8 +20,9 @@ export default function LoginPage() {
 
     try {
       const response = await login(loginData)
-      setMessage('Login successful!')
-      localStorage.setItem('token', response.token)
+      if(response.user.membershipStatus=="approved") {
+        setMessage('Login successful!');
+        localStorage.setItem('token', response.token)
       localStorage.setItem('role', response.user.role)
       localStorage.setItem('username', response.user.username)
       console.log(response.user.username)
@@ -29,14 +30,16 @@ export default function LoginPage() {
       if(response.user.role=="admin"){
         // Navigate to the /admin portal
         navigate('/admin')
-      } else if(response.user.role=="member"){
+      } else if(response.user.role=="member" ){
         // Navigate to the /user portal
         navigate('/member')
       }
-      // You can redirect or update UI here on successful login
+      } else if(response.user.membershipStatus=="pending") {
+        setMessage('You are not yet approved!');
+      }
     } catch (error: any) {
-      setMessage(error.response?.data?.message || 'Login failed. Please try again.')
-      console.error('Login error:', error)
+      setMessage(error.response?.data?.message || 'Login failed. Please try again.');
+      console.error('Login error:', error);
     }
   }
 
