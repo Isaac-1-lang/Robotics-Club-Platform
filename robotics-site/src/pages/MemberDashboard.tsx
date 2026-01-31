@@ -180,7 +180,7 @@ export default function MemberDashboard() {
           {/* Logo */}
           <div className="flex h-16 items-center px-6 border-b border-slate-100">
             <ShieldCheck className="h-7 w-7 text-blue-600 mr-3" />
-            <span className="text-lg font-bold text-slate-800">AdminPanel</span>
+            <span className="text-lg font-bold text-slate-800">Member's Panel</span>
             <button onClick={() => setSidebarOpen(false)} className="ml-auto lg:hidden text-slate-400">
               <X className="h-5 w-5" />
             </button>
