@@ -74,7 +74,6 @@ export default function AdminDashboard() {
     const formData = new FormData(e.currentTarget)
     const tagData = {
       name: formData.get('name') as string,
-      color: formData.get('color') as string,
     } as TagData
 
     try {
@@ -628,11 +627,10 @@ export default function AdminDashboard() {
                               <div className="flex flex-col gap-2">
                                 <span
                                   className="inline-flex items-center px-2.5 py-1 rounded-md text-white text-xs font-bold tracking-wide shadow-sm"
-                                  style={{ backgroundColor: tag.color || '#3b82f6' }}
+                                  style={{ backgroundColor: '#3b82f6' }}
                                 >
                                   {tag.name}
                                 </span>
-                                <span className="text-xs text-slate-400 font-mono uppercase">{tag.color || 'No Color'}</span>
                               </div>
                               <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <button
@@ -1279,24 +1277,7 @@ export default function AdminDashboard() {
                   <label className="block text-sm font-semibold text-slate-700 mb-1.5">Color</label>
                   <div className="flex gap-3">
                     <div className="relative">
-                      <input
-                        type="color"
-                        name="color"
-                        defaultValue={editingTag?.color || '#3b82f6'}
-                        className="h-10 w-16 p-0 border-0 rounded-lg cursor-pointer overflow-hidden"
-                      />
                     </div>
-                    <input
-                      name="color_text" // using a different name to avoid conflict or handle manually if needed, but for now just display
-                      defaultValue={editingTag?.color || '#3b82f6'}
-                      required
-                      className="flex-1 rounded-lg border border-slate-200 px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none uppercase font-mono"
-                      pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
-                      placeholder="#3B82F6"
-                      onChange={() => {
-                        // optional: sync with color picker if implementing controlled state
-                      }}
-                    />
                   </div>
                   <p className="text-xs text-slate-500 mt-1.5">Pick a color that stands out.</p>
                 </div>
