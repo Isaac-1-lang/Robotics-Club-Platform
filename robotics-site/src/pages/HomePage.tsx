@@ -174,7 +174,7 @@ export default function HomePage() {
                   </div>
                   <div className="space-y-3 p-6">
                     <div className="inline-flex rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-primary">
-                      {project.mainTag.name}
+                      {project.mainTag?.name || 'Hardware'}
                     </div>
                     <h3 className="text-xl font-bold text-text-primary">
                       {project.title}
@@ -182,13 +182,13 @@ export default function HomePage() {
                     <p className="text-sm text-text-muted leading-relaxed line-clamp-3">
                       {project.content}
                     </p>
-                     <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2">
                       {project.tags.slice(0, 3).map((tag) => (
                         <span
                           key={tag._id}
                           className="rounded-full bg-background px-3 py-1 text-xs font-semibold text-text-muted"
                         >
-                          {tag.name}
+                          {tag.name || 'Unnamed'}
                         </span>
                       ))}
                     </div>
@@ -299,7 +299,7 @@ export default function HomePage() {
                   </div>
                   <div className="space-y-3 p-6">
                     <div className="inline-flex rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-primary">
-                      {post.mainTag.name}
+                      {post.mainTag?.name || 'Tag'}
                     </div>
                     <h3 className="text-xl font-bold text-text-primary">
                       {post.title}
