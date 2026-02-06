@@ -84,14 +84,14 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl">
-      <Card className="p-6 sm:p-8">
-        <div className="flex items-center gap-3">
+    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-12 md:py-16">
+      <Card className="p-6 shadow-lg sm:p-8 lg:p-10">
+        <div className="mb-6 flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
             <UserPlus className="h-6 w-6" />
           </div>
           <div>
-            <p className="text-sm font-semibold text-primary">Membership</p>
+            <h1 className="text-xl font-bold text-text-primary sm:text-2xl">Membership</h1>
             <p className="text-text-muted text-sm">
               Your request will be reviewed by an admin
             </p>

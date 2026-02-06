@@ -42,17 +42,19 @@ export default function LoginPage() {
   }
 
   return (
- 
-      <div className="mx-auto max-w-3xl">
-        <Card className="p-6 sm:p-8">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/20 text-primary">
-              <ShieldCheck className="h-6 w-6" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-primary">Secure Access</p>
-            </div>
+    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-12 md:py-16">
+      <Card className="p-6 shadow-lg sm:p-8 lg:p-10">
+        <div className="mb-6 flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/20 text-primary">
+            <ShieldCheck className="h-6 w-6" />
           </div>
+          <div>
+            <h1 className="text-xl font-bold text-text-primary sm:text-2xl">Secure Access</h1>
+            <p className="text-text-muted text-sm">
+              Sign in to your account
+            </p>
+          </div>
+        </div>
 
           <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
             <div className="space-y-2">
@@ -105,9 +107,13 @@ export default function LoginPage() {
             </Link>
             </p>
             {message && (
-              <p className="rounded-xl bg-accent/10 px-4 py-3 text-sm text-primary">
+              <div className={`rounded-xl px-4 py-3 text-sm ${
+                message.includes('successful') 
+                  ? 'bg-green-50 text-green-700 border border-green-200' 
+                  : 'bg-accent/10 text-primary border border-accent/20'
+              }`}>
                 {message}
-              </p>
+              </div>
             )}
           </form>
         </Card>

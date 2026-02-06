@@ -219,23 +219,29 @@ export default function ProjectsPage() {
               return (
                 <Card
                   key={project._id}
-                  className="flex h-full flex-col overflow-hidden transition hover:-translate-y-1 hover:shadow-lg"
+                  className="group flex h-full flex-col overflow-hidden"
+                  hover
                 >
-                  {project.imageUrl ? (
-                    <img
-                      src={project.imageUrl}
-                      alt={project.title}
-                      className="h-36 w-full object-cover"
-                    />
-                  ) : (
-                    <div className="h-36 bg-gradient-to-br from-primary/10 via-accent/15 to-white" />
-                  )}
-
-                  <div className="flex flex-1 flex-col space-y-3 p-6">
-                    <div className="inline-flex w-fit rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-primary">
-                      {project.mainTag?.name}
+                  <div className="relative h-48 overflow-hidden">
+                    {project.imageUrl ? (
+                      <img
+                        src={project.imageUrl}
+                        alt={project.title}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                    ) : (
+                      <div className="h-full w-full bg-gradient-to-br from-primary/10 via-accent/15 to-white" />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                    <div className="absolute top-4 left-4">
+                      <span className="inline-flex rounded-full bg-white/90 backdrop-blur-sm px-3 py-1 text-xs font-bold text-primary shadow-sm">
+                        {project.mainTag?.name}
+                      </span>
                     </div>
-                    <h3 className="text-xl font-bold text-text-primary">
+                  </div>
+
+                  <div className="flex flex-1 flex-col space-y-4 p-6">
+                    <h3 className="text-xl font-bold text-text-primary line-clamp-2">
                       {project.title}
                     </h3>
                     <p className="text-sm text-text-muted leading-relaxed line-clamp-3">
@@ -245,7 +251,7 @@ export default function ProjectsPage() {
                       {project.tags.map((tag) => (
                         <span
                           key={tag._id}
-                          className="rounded-full bg-background px-3 py-1 text-xs font-semibold text-text-muted"
+                          className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-text-muted transition-colors group-hover:bg-accent/10 group-hover:text-primary"
                         >
                           {tag.name}
                         </span>

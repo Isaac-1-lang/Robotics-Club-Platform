@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Users } from 'lucide-react'
+import { Users, Cpu, Shield, Sparkles } from 'lucide-react'
 import { getTeam, type TeamMember } from '../apis/teamApi'
 import { Card } from '../components/ui/Card'
 import { Section } from '../components/ui/Section'
+import { TeamMemberCard } from '../components/ui/TeamMemberCard'
 
 export default function TeamPage() {
   const [team, setTeam] = useState<TeamMember[]>([])
@@ -25,10 +26,14 @@ export default function TeamPage() {
   if (loading) {
     return (
       <Section title="Meet the Team" eyebrow="Loading...">
-        <p className="text-text-muted">Loading team members...</p>
+        <div className="flex justify-center py-12">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+        </div>
       </Section>
     )
   }
+
+  const squadIcons = [Cpu, Shield, Sparkles]
 
   return (
     <>
@@ -38,45 +43,22 @@ export default function TeamPage() {
         description="A multidisciplinary team mentoring members across hardware, software, AI, and operations."
       >
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {team.map((member) => (
-            <Card
-              key={member._id}
-              className="p-6 transition hover:-translate-y-1 hover:shadow-lg"
-            >
-              <div className="flex items-center gap-4">
-                {member.image ? (
-                  <div className="h-12 w-12 overflow-hidden rounded-full">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                ) : (
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent/20 text-lg font-bold text-primary">
-                    {member.name.charAt(0)}
-                  </div>
-                )}
-
-                <div>
-                  <p className="text-sm font-semibold text-primary">
-                    {member.role}
-                  </p>
-                  <p className="text-lg font-bold text-text-primary">
-                    {member.name}
-                  </p>
-                </div>
-              </div>
-              <p className="mt-3 text-sm text-text-muted leading-relaxed">
-                {member.bio}
-              </p>
-            </Card>
-
-          ))}
+          {team.length > 0 ? (
+            team.map((member) => (
+              <TeamMemberCard
+                key={member._id}
+                name={member.name}
+                role={member.role}
+                bio={member.bio}
+                image={member.image}
+              />
+            ))
+          ) : (
+            <div className="col-span-full py-12 text-center">
+              <p className="text-text-muted">No team members found.</p>
+            </div>
+          )}
         </div>
-        <p>
-
-        </p>
       </Section>
 
       <Section
@@ -98,21 +80,31 @@ export default function TeamPage() {
               title: 'Operations & Research',
               details: 'Safety, documentation, outreach, and event coordination.',
             },
-          ].map((item) => (
-            <Card
-              key={item.title}
-              className="p-6 text-sm text-text-muted leading-relaxed"
-            >
-              <div className="flex items-center gap-2 text-primary">
-                <Users className="h-4 w-4" />
-                <p className="text-sm font-semibold">Squad</p>
-              </div>
-              <h3 className="mt-2 text-lg font-bold text-text-primary">
-                {item.title}
-              </h3>
-              <p className="mt-1">{item.details}</p>
-            </Card>
-          ))}
+          ].map((item, idx) => {
+            const Icon = squadIcons[idx] || Users
+            return (
+              <Card
+                key={item.title}
+                className="group p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg"
+              >
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/15 text-primary transition-all duration-300 group-hover:bg-accent/25 group-hover:scale-110">
+                  <Icon className="h-6 w-6" />
+                </div>
+                <div className="mb-2 flex items-center gap-2">
+                  <Users className="h-4 w-4 text-accent" />
+                  <p className="text-xs font-semibold uppercase tracking-wider text-accent">
+                    Squad
+                  </p>
+                </div>
+                <h3 className="mb-2 text-lg font-bold text-text-primary">
+                  {item.title}
+                </h3>
+                <p className="text-sm text-text-muted leading-relaxed">
+                  {item.details}
+                </p>
+              </Card>
+            )
+          })}
         </div>
       </Section>
     </>

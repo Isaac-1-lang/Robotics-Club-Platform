@@ -56,7 +56,7 @@ export default function HomePage() {
                 Rwanda Coding Academy Robotics Club
               </div>
               <h1 className="text-4xl font-bold leading-tight sm:text-5xl">
-                Build, test, and launch robotics and AI that shape Rwanda&apos;s future.
+                Build, test, and launch robots and AI models that shape Rwanda&apos;s future.
               </h1>
               <p className="max-w-2xl text-base text-slate-200 leading-relaxed">
                 We are a student-led club crafting autonomous systems, IoT networks,
@@ -77,7 +77,7 @@ export default function HomePage() {
                   to="/login"
                   className={buttonClasses({
                     variant: 'ghost',
-                    className: 'border-white/40 text-white hover:text-white',
+                    className: 'border-white/40 text-black hover:text-white',
                   })}
                 >
                   Login
@@ -88,7 +88,6 @@ export default function HomePage() {
                 {[
                   { label: 'Active Projects', value: '15+' },
                   { label: 'Members', value: '30+' },
-                  // { label: 'Competitions', value: '15+' },
                 ].map((item) => (
                   <div
                     key={item.label}
@@ -150,33 +149,40 @@ export default function HomePage() {
       >
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {isLoading ? (
-            <div className="col-span-full py-12 text-center text-text-muted">
-              Loading projects...
+            <div className="col-span-full py-12 text-center">
+              <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+              <p className="mt-4 text-text-muted">Loading projects...</p>
             </div>
           ) : featuredProjects.length > 0 ? (
             featuredProjects.map((project) => (
               <motion.div
                 key={project._id}
-                whileHover={{ y: -4 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3 }}
+                whileHover={{ y: -8 }}
               >
-                <Card className="h-full overflow-hidden border-slate-200/80">
-                  <div
-                    className="h-36 bg-cover bg-center bg-no-repeat"
-                    style={{
-                      backgroundImage: project.imageUrl ? `url(${project.imageUrl})` : undefined,
-                      backgroundColor: !project.imageUrl ? '#f1f5f9' : undefined
-                    }}
-                  >
-                    {!project.imageUrl && (
+                <Card className="group h-full overflow-hidden">
+                  <div className="relative h-48 overflow-hidden">
+                    {project.imageUrl ? (
+                      <img
+                        src={project.imageUrl}
+                        alt={project.title}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                    ) : (
                       <div className="h-full w-full bg-gradient-to-br from-primary/10 via-accent/20 to-white" />
                     )}
-                  </div>
-                  <div className="space-y-3 p-6">
-                    <div className="inline-flex rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-primary">
-                      {project.mainTag?.name || 'Hardware'}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                    <div className="absolute top-4 left-4">
+                      <span className="inline-flex rounded-full bg-white/90 backdrop-blur-sm px-3 py-1 text-xs font-bold text-primary shadow-sm">
+                        {project.mainTag?.name || 'Hardware'}
+                      </span>
                     </div>
-                    <h3 className="text-xl font-bold text-text-primary">
+                  </div>
+                  <div className="space-y-4 p-6">
+                    <h3 className="text-xl font-bold text-text-primary line-clamp-2">
                       {project.title}
                     </h3>
                     <p className="text-sm text-text-muted leading-relaxed line-clamp-3">
@@ -186,7 +192,7 @@ export default function HomePage() {
                       {project.tags.slice(0, 3).map((tag) => (
                         <span
                           key={tag._id}
-                          className="rounded-full bg-background px-3 py-1 text-xs font-semibold text-text-muted"
+                          className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-text-muted transition-colors group-hover:bg-accent/10 group-hover:text-primary"
                         >
                           {tag.name || 'Unnamed'}
                         </span>
@@ -197,8 +203,9 @@ export default function HomePage() {
               </motion.div>
             ))
           ) : (
-            <div className="col-span-full py-12 text-center text-text-muted">
-              No projects found.
+            <div className="col-span-full rounded-2xl border-2 border-dashed border-slate-200 py-16 text-center">
+              <p className="font-semibold text-lg text-text-primary">No projects found</p>
+              <p className="mt-2 text-sm text-text-muted">Check back later for new projects.</p>
             </div>
           )}
         </div>
@@ -270,38 +277,45 @@ export default function HomePage() {
       </Section>
       <Section
         title="Popular Blogs"
-        eyebrow="What we're building"
-        description="From AI vision to IoT sensor networks, explore the engineering work powering our competitions and demos."
+        eyebrow="Latest insights"
+        description="Stay updated with our latest articles, tutorials, and insights from the robotics community."
       >
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {isLoading ? (
-            <div className="col-span-full py-12 text-center text-text-muted">
-              Loading blogs...
+            <div className="col-span-full py-12 text-center">
+              <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+              <p className="mt-4 text-text-muted">Loading blogs...</p>
             </div>
           ) : featuredPosts.length > 0 ? (
             featuredPosts.map((post) => (
               <motion.div
                 key={post._id}
-                whileHover={{ y: -4 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3 }}
+                whileHover={{ y: -8 }}
               >
-                <Card className="h-full overflow-hidden border-slate-200/80">
-                  <div
-                    className="h-36 bg-cover bg-center bg-no-repeat"
-                    style={{
-                      backgroundImage: post.imageUrl ? `url(${post.imageUrl})` : undefined,
-                      backgroundColor: !post.imageUrl ? '#f1f5f9' : undefined
-                    }}
-                  >
-                    {!post.imageUrl && (
+                <Card className="group h-full overflow-hidden">
+                  <div className="relative h-48 overflow-hidden">
+                    {post.imageUrl ? (
+                      <img
+                        src={post.imageUrl}
+                        alt={post.title}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                    ) : (
                       <div className="h-full w-full bg-gradient-to-br from-primary/10 via-accent/20 to-white" />
                     )}
-                  </div>
-                  <div className="space-y-3 p-6">
-                    <div className="inline-flex rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-primary">
-                      {post.mainTag?.name || 'Tag'}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                    <div className="absolute top-4 left-4">
+                      <span className="inline-flex rounded-full bg-white/90 backdrop-blur-sm px-3 py-1 text-xs font-bold text-primary shadow-sm">
+                        {post.mainTag?.name || 'Tag'}
+                      </span>
                     </div>
-                    <h3 className="text-xl font-bold text-text-primary">
+                  </div>
+                  <div className="space-y-4 p-6">
+                    <h3 className="text-xl font-bold text-text-primary line-clamp-2">
                       {post.title}
                     </h3>
                     <p className="text-sm text-text-muted leading-relaxed line-clamp-3">
@@ -311,14 +325,14 @@ export default function HomePage() {
                       {post.tags.slice(0, 3).map((tag) => (
                         <span
                           key={tag._id}
-                          className="rounded-full bg-background px-3 py-1 text-xs font-semibold text-text-muted"
+                          className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-text-muted transition-colors group-hover:bg-accent/10 group-hover:text-primary"
                         >
                           {tag.name}
                         </span>
                       ))}
                     </div>
-                    <div className="mt-4 flex items-center justify-between text-xs text-text-muted">
-                      <span>By {post.author.username}</span>
+                    <div className="flex items-center justify-between border-t border-slate-100 pt-4 text-xs text-text-muted">
+                      <span className="font-medium">By {post.author.username}</span>
                       <span>{new Date(post.createdAt).toLocaleDateString()}</span>
                     </div>
                   </div>
@@ -326,8 +340,9 @@ export default function HomePage() {
               </motion.div>
             ))
           ) : (
-            <div className="col-span-full py-12 text-center text-text-muted">
-              No blogs found.
+            <div className="col-span-full rounded-2xl border-2 border-dashed border-slate-200 py-16 text-center">
+              <p className="font-semibold text-lg text-text-primary">No blogs found</p>
+              <p className="mt-2 text-sm text-text-muted">Check back later for new articles.</p>
             </div>
           )}
         </div>
