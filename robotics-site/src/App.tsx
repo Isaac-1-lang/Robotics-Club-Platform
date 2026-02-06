@@ -13,7 +13,8 @@ import ProjectsPage from './pages/ProjectsPage'
 import RegisterPage from './pages/RegisterPage'
 import TeamPage from './pages/TeamPage'
 import BlogsPage from './pages/BlogsPage'
-import MemberDashboard from './pages/MemberDashboard';
+import MemberDashboard from './pages/MemberDashboard'
+import { ProtectedRoute } from './components/auth/ProtectedRoute'
 
 function App() {
   const location = useLocation();
@@ -61,8 +62,22 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/member" element={<MemberDashboard />} />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/member"
+            element={
+              <ProtectedRoute requiredRole="member">
+                <MemberDashboard />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/blogs" element={<BlogsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

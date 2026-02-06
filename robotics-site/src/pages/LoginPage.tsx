@@ -1,15 +1,31 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { FormEvent } from 'react'
 import { ShieldCheck, LogIn } from 'lucide-react'
 import { Card } from '../components/ui/Card'
 import { buttonClasses } from '../components/ui/buttonStyles'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import type { LoginData } from '../apis/authApis'
 import { login } from '../apis/authApis'
-import { useNavigate } from 'react-router-dom'
+
 export default function LoginPage() {
   const [message, setMessage] = useState('')
-  const navigate = useNavigate()  
+  const navigate = useNavigate()
+  const location = useLocation()
+  
+  // Check if user is already logged in
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    const role = localStorage.getItem('role')
+    
+    if (token && role) {
+      // Redirect to appropriate dashboard
+      if (role === 'admin') {
+        navigate('/admin', { replace: true })
+      } else if (role === 'member') {
+        navigate('/member', { replace: true })
+      }
+    }
+  }, [navigate])  
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
@@ -26,12 +42,15 @@ export default function LoginPage() {
       localStorage.setItem('role', response.user.role)
       localStorage.setItem('username', response.user.username)
       localStorage.setItem('email', response.user.email)
+      // Get the redirect path from location state, or default to dashboard
+      const from = (location.state as any)?.from?.pathname || null
+      
       if(response.user.role=="admin"){
-        // Navigate to the /admin portal
-        navigate('/admin')
+        // Navigate to the /admin portal or back to where they came from
+        navigate(from || '/admin', { replace: true })
       } else if(response.user.role=="member" ){
-        // Navigate to the /user portal
-        navigate('/member')
+        // Navigate to the /member portal or back to where they came from
+        navigate(from || '/member', { replace: true })
       }
       } else if(response.user.membershipStatus=="pending") {
         setMessage('You are not yet approved!');
