@@ -1,3 +1,7 @@
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx,js,jsx}', // All JS/TS/React files in src
@@ -64,5 +68,4 @@ export default {
     },
   },
   plugins: [],
-}
-
+};
