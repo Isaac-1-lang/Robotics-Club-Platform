@@ -10,9 +10,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#000000',
-        accent: '#FFFFFF',
-        background: '#F8FAFC',
+        primary: '#0B4EA2',
+        accent: '#F07010',
+        background: '#F4F8FB',
         surface: '#FFFFFF',
         text: {
           primary: '#0F172A',

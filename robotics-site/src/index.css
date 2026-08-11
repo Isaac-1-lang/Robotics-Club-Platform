@@ -361,3 +361,61 @@ html:not(.light) .app-shell [role="dialog"] { color:#edf3f6; }
 .light .member-socials a,.light .member-socials span { border-color:#ccc;color:#aaa; }.light .member-socials a { color:#000; }.light .member-socials a:hover { background:#000;color:#fff;border-color:#000; }
 .light .roster-group-heading b { color:rgba(0,0,0,.12); }
 @media(max-width:767px){.roster-stats{grid-template-columns:1fr}.roster-stats div{border-right:0;border-bottom:1px solid rgba(255,255,255,.16)}.roster-stats div:last-child{border-bottom:0}.roster-grid{grid-template-columns:1fr}.member-socials{display:none}.social-verification-note{align-items:flex-start;flex-direction:column}.roster-group-heading b{display:none}}
+/* RCA and WithinTech partnership identity */
+:root { --rca-blue:#0b4ea2;--rca-sky:#00a1de;--rca-gold:#fad201;--within-purple:#300060;--within-orange:#f07010;--brand-night:#061426;--brand-paper:#f4f8fb; }
+body,html:not(.light) body,html:not(.light) .app-shell { background:var(--brand-night); }
+.app-shell { --robot-accent:var(--rca-sky); }
+.robotics-home { background:var(--brand-night); }
+.robot-navbar { background:rgba(6,20,38,.92);border-color:rgba(0,161,222,.22); }
+.robot-brand { color:#fff; }
+.robot-nav-link:hover,.robot-nav-link.is-active { color:var(--rca-sky);background:rgba(0,161,222,.1); }
+.theme-toggle:hover { border-color:var(--within-orange);color:var(--within-orange); }
+.section-kicker { color:var(--rca-sky); }.hero-kicker { color:#fff!important; }
+.robotics-home [class*="text-[#00a1de]"] { color:var(--rca-sky); }
+.robotics-home [class*="bg-[#f07010]"] { background-color:var(--within-orange); }
+.robotics-home [class*="border-[#00a1de]"] { border-color:var(--rca-sky); }
+.robotics-home .cta-section { background:linear-gradient(105deg,var(--rca-blue),var(--within-purple));color:#fff; }
+.robotics-home .cta-section .robot-button { background:var(--within-orange)!important;color:#fff!important; }
+.lab-section { background:linear-gradient(135deg,#071a30,#0a2340); }
+.project-card { background:#091b31; }.project-card:hover { background:#0c2748; }
+.discipline-card:hover { border-color:rgba(240,112,16,.5);background:rgba(11,78,162,.12); }
+.robot-cursor-glow { background:radial-gradient(circle,rgba(0,161,222,.11),transparent 68%); }
+.robot-scanline { background:linear-gradient(90deg,transparent,rgba(240,112,16,.55),transparent);box-shadow:0 0 18px rgba(240,112,16,.28); }
+.robot-orbit { border-color:rgba(0,161,222,.13); }
+.robot-arm-video { filter:saturate(.78) contrast(1.04) brightness(1.08); }
+.video-live-dot { background:var(--within-orange);box-shadow:0 0 0 0 rgba(240,112,16,.6); }
+.robot-video-status { border-color:rgba(240,112,16,.55);color:#fff; }
+.app-shell img:not([src$="logoWhite.png"]):not([src$="logoBlack.png"]):not([src="/image.png"]) { filter:none; }
+.app-shell main .rounded-2xl:hover { border-color:rgba(0,161,222,.48);box-shadow:0 18px 55px rgba(0,0,0,.18),0 0 0 1px rgba(240,112,16,.13); }
+.app-shell main input:focus,.app-shell main textarea:focus,.app-shell main select:focus { border-color:var(--rca-sky);box-shadow:0 0 0 3px rgba(0,161,222,.14); }
+html:not(.light) .app-shell .text-primary { color:#74d0ef; }
+html:not(.light) .app-shell .bg-primary { background-color:var(--rca-blue); }
+
+.partnership-band { position:relative;z-index:5;border-bottom:1px solid rgba(255,255,255,.1);background:linear-gradient(115deg,var(--rca-blue) 0%,#082c5e 52%,var(--within-purple) 100%); }
+.partnership-band::before { content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:54px 54px;opacity:.35; }
+.partnership-inner { position:relative;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:3rem;max-width:80rem;margin:auto;padding:3.5rem 2.5rem;color:#fff; }
+.partnership-copy>span { font:700 .68rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.18em;text-transform:uppercase;color:#ffd36a; }
+.partnership-copy h2 { max-width:45rem;margin-top:.8rem;font-size:clamp(1.65rem,3vw,2.6rem);line-height:1.08; }
+.partnership-copy p { max-width:44rem;margin-top:1rem;color:#cbdbea; }
+.partner-marks { display:flex;align-items:center;justify-content:flex-end;gap:1.25rem; }
+.partner-mark { display:grid;place-items:center;min-width:175px;min-height:126px;padding:1rem;border:1px solid rgba(255,255,255,.18);background:rgba(4,12,24,.32);backdrop-filter:blur(10px); }
+.partner-mark img { max-width:145px;max-height:64px;object-fit:contain; }
+.partner-mark span { margin-top:.65rem;font:600 .6rem/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.11em;color:#d5dfeb; }
+.partner-link { width:34px;height:2px;background:linear-gradient(90deg,var(--rca-sky),var(--within-orange)); }
+.team-roster-card:hover { border-left:2px solid var(--within-orange);background:#0a1d35; }
+.member-avatar { border-color:var(--rca-sky);background:var(--rca-blue); }.member-avatar i { background:var(--within-orange); }
+.roster-filters button:hover,.roster-filters button.active { background:var(--rca-blue);border-color:var(--rca-sky);color:#fff; }
+
+.light body,.light .app-shell,.light .robotics-home { background:var(--brand-paper); }
+.light .robot-navbar { background:rgba(244,248,251,.94);border-color:rgba(11,78,162,.18); }
+.light .robot-brand { color:#09274a; }.light .robot-nav-link:hover,.light .robot-nav-link.is-active { color:var(--rca-blue);background:rgba(11,78,162,.08); }
+.light .section-kicker { color:var(--rca-blue); }.light .hero-kicker { color:#fff!important; }
+.light .robotics-home section:not(.hero-shell):not(.cta-section) [class*="text-[#00a1de]"] { color:var(--rca-blue); }
+.light .lab-section { background:#e8f2fa; }.light .project-card { background:#fff;border-top:3px solid var(--rca-blue); }.light .project-card:hover { background:#f7fbff; }
+.light .robot-cursor-glow { background:radial-gradient(circle,rgba(11,78,162,.08),transparent 68%); }
+.light .robot-scanline { background:linear-gradient(90deg,transparent,rgba(240,112,16,.36),transparent); }
+.light .team-roster-card:hover { background:#eef6fc; }
+.light .member-avatar { background:var(--rca-blue);border-color:var(--rca-sky); }.light .member-avatar i { background:var(--within-orange); }
+.light .roster-filters button:hover,.light .roster-filters button.active { background:var(--rca-blue);border-color:var(--rca-blue); }
+@media(max-width:900px){.partnership-inner{grid-template-columns:1fr}.partner-marks{justify-content:flex-start}}
+@media(max-width:600px){.partnership-inner{padding:2.5rem 1.25rem}.partner-marks{align-items:stretch;flex-direction:column}.partner-link{width:2px;height:24px;margin:auto}.partner-mark{width:100%}}
