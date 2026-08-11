@@ -64,9 +64,9 @@ export default function BlogsPage() {
   if (error) {
     return (
       <Section title="Robotics Monthly Blogs" eyebrow="Builds & research" description="Something went wrong.">
-        <div className="rounded-lg bg-red-50 border border-red-200 p-6 text-center">
-          <p className="text-red-600 mb-2 font-semibold">Unable to load blogs</p>
-          <p className="text-sm text-red-500">{error}</p>
+        <div className="rounded-lg bg-black border border-black p-6 text-center">
+          <p className="text-text-primary mb-2 font-semibold">Unable to load blogs</p>
+          <p className="text-sm text-text-primary">{error}</p>
         </div>
       </Section>
     )

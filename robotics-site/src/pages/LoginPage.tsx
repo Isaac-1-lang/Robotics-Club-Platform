@@ -128,7 +128,7 @@ export default function LoginPage() {
             {message && (
               <div className={`rounded-xl px-4 py-3 text-sm ${
                 message.includes('successful') 
-                  ? 'bg-green-50 text-green-700 border border-green-200' 
+                  ? 'bg-black text-text-primary border border-black' 
                   : 'bg-accent/10 text-primary border border-accent/20'
               }`}>
                 {message}

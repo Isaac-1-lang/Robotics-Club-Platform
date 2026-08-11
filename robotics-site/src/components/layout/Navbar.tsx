@@ -24,7 +24,7 @@ export default function Navbar({ lightMode, onToggleTheme }: NavbarProps) {
       <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-1 py-3 sm:px-2">
         <Link to="/" className="flex items-center gap-3 hover:scale-105" onClick={() => setOpen(false)}>
           <img src="/logoBlack.png" alt="Robotics Club Logo" className="h-10 w-10 rounded-full ring-2 ring-white/30 sm:h-11 sm:w-11" />
-          <div><p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#78c900] sm:text-xs">RCA</p><p className="robot-brand text-base font-bold sm:text-lg">Robotics Club</p></div>
+          <div><p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#ffffff] sm:text-xs">RCA</p><p className="robot-brand text-base font-bold sm:text-lg">Robotics Club</p></div>
         </Link>
 
         <div className="hidden items-center gap-1 md:flex">
@@ -32,7 +32,7 @@ export default function Navbar({ lightMode, onToggleTheme }: NavbarProps) {
           <button type="button" onClick={onToggleTheme} className="theme-toggle ml-2 flex h-10 w-10 items-center justify-center rounded-full border" aria-label={lightMode ? 'Switch to dark mode' : 'Switch to light mode'} title={lightMode ? 'Dark mode' : 'Light mode'}>
             {lightMode ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
           </button>
-          <Link to="/register" className="ml-2 bg-[#9eff00] px-4 py-2.5 text-sm font-bold text-[#06100b] hover:bg-white">Request Access</Link>
+          <Link to="/register" className="ml-2 bg-[#ffffff] px-4 py-2.5 text-sm font-bold text-[#06100b] hover:bg-white">Request Access</Link>
         </div>
 
         <div className="flex items-center gap-2 md:hidden">
@@ -41,7 +41,7 @@ export default function Navbar({ lightMode, onToggleTheme }: NavbarProps) {
         </div>
       </nav>
 
-      {open && <div className="absolute left-0 right-0 top-full z-40 px-4 pt-2 md:hidden"><div className="robot-mobile-menu mx-auto max-w-7xl space-y-2 border p-4 shadow-xl backdrop-blur-xl">{navLinks.map(link => <NavLinkItem key={link.path} path={link.path} label={link.label} onClick={() => setOpen(false)} />)}<Link to="/register" className="block w-full bg-[#9eff00] px-4 py-3 text-center text-sm font-bold text-[#06100b]" onClick={() => setOpen(false)}>Request Access</Link></div></div>}
+      {open && <div className="absolute left-0 right-0 top-full z-40 px-4 pt-2 md:hidden"><div className="robot-mobile-menu mx-auto max-w-7xl space-y-2 border p-4 shadow-xl backdrop-blur-xl">{navLinks.map(link => <NavLinkItem key={link.path} path={link.path} label={link.label} onClick={() => setOpen(false)} />)}<Link to="/register" className="block w-full bg-[#ffffff] px-4 py-3 text-center text-sm font-bold text-[#06100b]" onClick={() => setOpen(false)}>Request Access</Link></div></div>}
     </header>
   )
 }

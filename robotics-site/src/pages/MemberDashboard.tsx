@@ -179,7 +179,7 @@ export default function MemberDashboard() {
         <div className="flex h-full flex-col">
           {/* Logo */}
           <div className="flex h-16 items-center px-6 border-b border-slate-100">
-            <ShieldCheck className="h-7 w-7 text-blue-600 mr-3" />
+            <ShieldCheck className="h-7 w-7 text-text-primary mr-3" />
             <span className="text-lg font-bold text-slate-800">Member's Panel</span>
             <button onClick={() => setSidebarOpen(false)} className="ml-auto lg:hidden text-slate-400">
               <X className="h-5 w-5" />
@@ -196,12 +196,12 @@ export default function MemberDashboard() {
                   setSidebarOpen(false)
                 }}
                 className={`flex w-full items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${activeTab === item.key
-                  ? 'bg-blue-50 text-blue-700'
+                  ? 'bg-black text-text-primary'
                   : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
                   }`}
               >
                 <div className="flex items-center gap-3">
-                  <item.icon className={`h-4 w-4 ${activeTab === item.key ? 'text-blue-600' : 'text-slate-400'}`} />
+                  <item.icon className={`h-4 w-4 ${activeTab === item.key ? 'text-text-primary' : 'text-slate-400'}`} />
                   {item.label}
                 </div>
               </button>
@@ -212,7 +212,7 @@ export default function MemberDashboard() {
           <div className="p-4 border-t border-slate-200 bg-white rounded-lg shadow-sm w-30">
   <div className="flex items-center gap-3 mb-4 ">
     {/* Avatar */}
-    <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold text-sm">
+    <div className="h-10 w-10 rounded-full bg-black flex items-center justify-center text-white font-semibold text-sm">
       {(localStorage.getItem('username') || 'U').charAt(0).toUpperCase()}
     </div>
     
@@ -229,7 +229,7 @@ export default function MemberDashboard() {
 
   {/* Logout button */}
   <button
-    className="w-full py-2 px-4 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700 transition-colors shadow-sm"
+    className="w-full py-2 px-4 bg-black text-white text-sm font-medium rounded-md hover:bg-black transition-colors shadow-sm"
     onClick={() => {
       localStorage.clear()
       window.location.reload()
@@ -265,7 +265,7 @@ export default function MemberDashboard() {
               <input
                 type="text"
                 placeholder="Search..."
-                className="h-9 w-64 rounded-md border border-slate-200 bg-slate-50 pl-9 pr-4 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                className="h-9 w-64 rounded-md border border-slate-200 bg-slate-50 pl-9 pr-4 text-sm focus:border-black focus:ring-1 focus:ring-black outline-none"
               />
             </div>
             <button className="text-slate-400 hover:text-slate-600">
@@ -278,7 +278,7 @@ export default function MemberDashboard() {
         <div className="flex-1 p-6 overflow-hidden flex flex-col min-h-0">
           {isLoading ? (
             <div className="h-full flex items-center justify-center">
-              <Loader className="h-8 w-8 text-blue-600 animate-spin" />
+              <Loader className="h-8 w-8 text-text-primary animate-spin" />
             </div>
           ) : (
             <>
@@ -295,7 +295,7 @@ export default function MemberDashboard() {
                     </div>
                     <button
                       onClick={() => { setEditingProject(null); setIsProjectModalOpen(true) }}
-                      className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm font-medium"
+                      className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-black transition-colors shadow-sm font-medium"
                     >
                       <Plus className="h-4 w-4" />
                       Add Project
@@ -348,7 +348,7 @@ export default function MemberDashboard() {
                                     setEditingProject(project)
                                     setIsProjectModalOpen(true)
                                   }}
-                                  className="p-2 bg-white text-blue-600 rounded-full hover:bg-blue-50 shadow-lg"
+                                  className="p-2 bg-white text-text-primary rounded-full hover:bg-black shadow-lg"
                                   title="Edit"
                                 >
                                   <Edit2 className="h-4 w-4" />
@@ -407,7 +407,7 @@ export default function MemberDashboard() {
                       <nav className="space-y-1">
                         <button
                           onClick={() => setActiveSettingsTab('profile')}
-                          className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${activeSettingsTab === 'profile' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-600 hover:bg-slate-100'
+                          className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${activeSettingsTab === 'profile' ? 'bg-white text-text-primary shadow-sm' : 'text-slate-600 hover:bg-slate-100'
                             }`}
                         >
                           <User className="h-4 w-4" />
@@ -415,7 +415,7 @@ export default function MemberDashboard() {
                         </button>
                         <button
                           onClick={() => setActiveSettingsTab('security')}
-                          className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${activeSettingsTab === 'security' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-600 hover:bg-slate-100'
+                          className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${activeSettingsTab === 'security' ? 'bg-white text-text-primary shadow-sm' : 'text-slate-600 hover:bg-slate-100'
                             }`}
                         >
                           <Lock className="h-4 w-4" />
@@ -423,7 +423,7 @@ export default function MemberDashboard() {
                         </button>
                         <button
                           onClick={() => setActiveSettingsTab('notifications')}
-                          className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${activeSettingsTab === 'notifications' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-600 hover:bg-slate-100'
+                          className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${activeSettingsTab === 'notifications' ? 'bg-white text-text-primary shadow-sm' : 'text-slate-600 hover:bg-slate-100'
                             }`}
                         >
                           <BellRing className="h-4 w-4" />
@@ -450,7 +450,7 @@ export default function MemberDashboard() {
                               e.preventDefault();
                             }}>
                               <div className="flex items-center gap-6">
-                                <div className="h-20 w-20 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-2xl font-bold border-4 border-white shadow-sm">
+                                <div className="h-20 w-20 rounded-full bg-black flex items-center justify-center text-text-primary text-2xl font-bold border-4 border-white shadow-sm">
                                   {(localStorage.getItem('username') || 'U').charAt(0).toUpperCase()}
                                 </div>
                                 <div>
@@ -467,7 +467,7 @@ export default function MemberDashboard() {
                                   <input
                                     name="username"
                                     defaultValue={localStorage.getItem('username') || ''}
-                                    className="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                                    className="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-black focus:ring-2 focus:ring-black outline-none transition-all"
                                     disabled
                                   />
                                 </div>
@@ -478,13 +478,13 @@ export default function MemberDashboard() {
                                 <textarea
                                   name="bio"
                                   rows={4}
-                                  className="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all resize-none"
+                                  className="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-black focus:ring-2 focus:ring-black outline-none transition-all resize-none"
                                   placeholder="Tell us a little about yourself..."
                                 />
                               </div>
 
                               <div className="flex justify-end pt-4">
-                                <button type="submit" className="px-6 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 shadow-sm transition-colors">
+                                <button type="submit" className="px-6 py-2.5 bg-black text-white text-sm font-medium rounded-lg hover:bg-black shadow-sm transition-colors">
                                   Save Changes
                                 </button>
                               </div>
@@ -531,7 +531,7 @@ export default function MemberDashboard() {
                                   type="password"
                                   name="currentPassword"
                                   required
-                                  className="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                                  className="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-black focus:ring-2 focus:ring-black outline-none transition-all"
                                 />
                               </div>
                               <div className="pt-2">
@@ -540,7 +540,7 @@ export default function MemberDashboard() {
                                   type="password"
                                   name="newPassword"
                                   required
-                                  className="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                                  className="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-black focus:ring-2 focus:ring-black outline-none transition-all"
                                 />
                               </div>
                               <div>
@@ -549,12 +549,12 @@ export default function MemberDashboard() {
                                   type="password"
                                   name="confirmPassword"
                                   required
-                                  className="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                                  className="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-black focus:ring-2 focus:ring-black outline-none transition-all"
                                 />
                               </div>
 
                               <div className="flex justify-end pt-4">
-                                <button type="submit" className="px-6 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 shadow-sm transition-colors">
+                                <button type="submit" className="px-6 py-2.5 bg-black text-white text-sm font-medium rounded-lg hover:bg-black shadow-sm transition-colors">
                                   Update Password
                                 </button>
                               </div>
@@ -587,7 +587,7 @@ export default function MemberDashboard() {
                                   </div>
                                   <label className="relative inline-flex items-center cursor-pointer">
                                     <input type="checkbox" className="sr-only peer" defaultChecked />
-                                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
                                   </label>
                                 </div>
                               ))}
@@ -610,7 +610,7 @@ export default function MemberDashboard() {
                     </div>
                     <button
                       onClick={() => { setEditingPost(null); setIsPostModalOpen(true) }}
-                      className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm font-medium"
+                      className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-black transition-colors shadow-sm font-medium"
                     >
                       <Plus className="h-4 w-4" />
                       Create Post
@@ -663,7 +663,7 @@ export default function MemberDashboard() {
                                     setEditingPost(post)
                                     setIsPostModalOpen(true)
                                   }}
-                                  className="p-2 bg-white text-blue-600 rounded-full hover:bg-blue-50 shadow-lg"
+                                  className="p-2 bg-white text-text-primary rounded-full hover:bg-black shadow-lg"
                                   title="Edit"
                                 >
                                   <Edit2 className="h-4 w-4" />
@@ -759,7 +759,7 @@ export default function MemberDashboard() {
                             name="title"
                             defaultValue={editingPost?.title}
                             required
-                            className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                            className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm focus:border-black focus:ring-2 focus:ring-black outline-none transition-all"
                             placeholder="e.g. The Future of AI in Robotics"
                           />
                         </div>
@@ -770,7 +770,7 @@ export default function MemberDashboard() {
                             <select
                               name="mainTag"
                               defaultValue={editingPost?.mainTag?._id}
-                              className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white"
+                              className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm focus:border-black focus:ring-2 focus:ring-black outline-none transition-all bg-white"
                             >
                               <option value="">Select a tag...</option>
                               {tags.map(tag => (
@@ -785,7 +785,7 @@ export default function MemberDashboard() {
                                 type="file"
                                 name="image"
                                 accept="image/*"
-                                className="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 file:cursor-pointer cursor-pointer border border-slate-200 rounded-lg"
+                                className="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-black file:text-text-primary hover:file:bg-black file:cursor-pointer cursor-pointer border border-slate-200 rounded-lg"
                               />
                             </div>
                           </div>
@@ -798,7 +798,7 @@ export default function MemberDashboard() {
                             defaultValue={editingPost?.content}
                             required
                             rows={8}
-                            className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none resize-none transition-all font-mono text-slate-600"
+                            className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm focus:border-black focus:ring-2 focus:ring-black outline-none resize-none transition-all font-mono text-slate-600"
                             placeholder="Write your article content here..."
                           />
                         </div>
@@ -807,13 +807,13 @@ export default function MemberDashboard() {
                           <label className="block text-sm font-semibold text-slate-700 mb-2">Additional Tags</label>
                           <div className="flex flex-wrap gap-2 p-4 border border-slate-200 rounded-xl bg-slate-50/50 max-h-40 overflow-y-auto">
                             {tags.map(tag => (
-                              <label key={tag._id} className="inline-flex items-center gap-2 cursor-pointer px-3 py-2 bg-white border border-slate-200 rounded-lg hover:border-blue-300 transition-colors shadow-sm">
+                              <label key={tag._id} className="inline-flex items-center gap-2 cursor-pointer px-3 py-2 bg-white border border-slate-200 rounded-lg hover:border-black transition-colors shadow-sm">
                                 <input
                                   type="checkbox"
                                   name="tags"
                                   value={tag._id}
                                   defaultChecked={editingPost?.tags?.some(t => t._id === tag._id)}
-                                  className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 h-4 w-4"
+                                  className="rounded border-slate-300 text-text-primary focus:ring-black h-4 w-4"
                                 />
                                 <span className="text-sm font-medium text-slate-700 select-none">{tag.name}</span>
                               </label>
@@ -832,7 +832,7 @@ export default function MemberDashboard() {
                           </button>
                           <button
                             type="submit"
-                            className="px-6 py-2.5 text-sm font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md hover:shadow-lg transition-all"
+                            className="px-6 py-2.5 text-sm font-medium bg-black text-white rounded-lg hover:bg-black shadow-md hover:shadow-lg transition-all"
                           >
                             {editingPost ? 'Update Post' : 'Publish Post'}
                           </button>
@@ -878,7 +878,7 @@ export default function MemberDashboard() {
                     name="title"
                     defaultValue={editingProject?.title}
                     required
-                    className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                    className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm focus:border-black focus:ring-2 focus:ring-black outline-none transition-all"
                     placeholder="e.g. Autonomous Drone V2"
                   />
                 </div>
@@ -890,7 +890,7 @@ export default function MemberDashboard() {
                       name="mainTag"
                       defaultValue={editingProject?.mainTag?._id}
                       required
-                      className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white"
+                      className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm focus:border-black focus:ring-2 focus:ring-black outline-none transition-all bg-white"
                     >
                       <option value="">Select a tag...</option>
                       {tags.map(tag => (
@@ -905,7 +905,7 @@ export default function MemberDashboard() {
                         type="file"
                         name="image"
                         accept="image/*"
-                        className="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 file:cursor-pointer cursor-pointer border border-slate-200 rounded-lg"
+                        className="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-black file:text-text-primary hover:file:bg-black file:cursor-pointer cursor-pointer border border-slate-200 rounded-lg"
                       />
                     </div>
                   </div>
@@ -918,7 +918,7 @@ export default function MemberDashboard() {
                     defaultValue={editingProject?.content}
                     required
                     rows={5}
-                    className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none resize-none transition-all"
+                    className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm focus:border-black focus:ring-2 focus:ring-black outline-none resize-none transition-all"
                     placeholder="Detailed description of the project..."
                   />
                 </div>
@@ -927,13 +927,13 @@ export default function MemberDashboard() {
                   <label className="block text-sm font-semibold text-slate-700 mb-2">Additional Tags</label>
                   <div className="flex flex-wrap gap-2 p-4 border border-slate-200 rounded-xl bg-slate-50/50 max-h-40 overflow-y-auto">
                     {tags.map(tag => (
-                      <label key={tag._id} className="inline-flex items-center gap-2 cursor-pointer px-3 py-2 bg-white border border-slate-200 rounded-lg hover:border-blue-300 transition-colors shadow-sm">
+                      <label key={tag._id} className="inline-flex items-center gap-2 cursor-pointer px-3 py-2 bg-white border border-slate-200 rounded-lg hover:border-black transition-colors shadow-sm">
                         <input
                           type="checkbox"
                           name="tags"
                           value={tag._id}
                           defaultChecked={editingProject?.tags?.some(t => t._id === tag._id)}
-                          className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 h-4 w-4"
+                          className="rounded border-slate-300 text-text-primary focus:ring-black h-4 w-4"
                         />
                         <span className="text-sm font-medium text-slate-700 select-none">{tag.name}</span>
                       </label>
@@ -952,7 +952,7 @@ export default function MemberDashboard() {
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-2.5 text-sm font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md hover:shadow-lg transition-all"
+                    className="px-6 py-2.5 text-sm font-medium bg-black text-white rounded-lg hover:bg-black shadow-md hover:shadow-lg transition-all"
                   >
                     {editingProject ? 'Update Project' : 'Create Project'}
                   </button>

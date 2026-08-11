@@ -10,8 +10,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#0A2540',
-        accent: '#00E5FF',
+        primary: '#000000',
+        accent: '#FFFFFF',
         background: '#F8FAFC',
         surface: '#FFFFFF',
         text: {
@@ -39,7 +39,7 @@ export default {
       boxShadow: {
         'soft': '0 10px 30px rgba(15, 23, 42, 0.08)',
         'soft-lg': '0 20px 40px rgba(15, 23, 42, 0.12)',
-        'glow': '0 0 20px rgba(0, 229, 255, 0.3)',
+        'glow': '0 0 20px rgba(255, 255, 255, 0.3)',
       },
       fontFamily: {
         sans: ['"Jost"', 'system-ui', 'sans-serif'],
@@ -55,7 +55,7 @@ export default {
         '4xl': ['2.5rem', { lineHeight: '1.2' }],
       },
       backgroundImage: {
-        'grid-glow': 'radial-gradient(circle at 1px 1px, rgba(0, 229, 255, 0.3) 1px, transparent 0)',
+        'grid-glow': 'radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.3) 1px, transparent 0)',
       },
       transitionDuration: {
         'fast': '150ms',

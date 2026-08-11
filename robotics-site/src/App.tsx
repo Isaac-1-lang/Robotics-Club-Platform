@@ -49,13 +49,13 @@ function App() {
           },
           success: {
             iconTheme: {
-              primary: '#4CAF50',
+              primary: '#ffffff',
               secondary: '#fff',
             },
           },
           error: {
             iconTheme: {
-              primary: '#f44336',
+              primary: '#ffffff',
               secondary: '#fff',
             },
           },

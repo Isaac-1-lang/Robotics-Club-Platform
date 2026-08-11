@@ -31,12 +31,12 @@ class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="flex h-screen w-full flex-col items-center justify-center bg-background px-4 text-center">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-sm">
-            <h1 className="text-3xl font-bold text-red-500">Something went wrong</h1>
+            <h1 className="text-3xl font-bold text-text-primary">Something went wrong</h1>
             <p className="mt-4 text-text-muted">
               We encountered an unexpected error.
             </p>
             {this.state.error && (
-              <pre className="mt-4 max-w-md overflow-auto rounded bg-black/20 p-4 text-left text-xs text-red-300">
+              <pre className="mt-4 max-w-md overflow-auto rounded bg-black/20 p-4 text-left text-xs text-text-primary">
                 {this.state.error.message}
               </pre>
             )}

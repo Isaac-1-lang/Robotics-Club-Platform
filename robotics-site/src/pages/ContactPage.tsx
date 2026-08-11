@@ -68,12 +68,12 @@ export default function ContactPage() {
                     maxLength: { value: 50, message: 'Name must be less than 50 characters' }
                   })}
                   className={`w-full rounded-xl border ${
-                    errors.name ? 'border-red-500' : 'border-slate-200/80'
+                    errors.name ? 'border-black' : 'border-slate-200/80'
                   } bg-background px-4 py-3 text-sm text-text-primary outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/50`}
                   placeholder="Your name"
                 />
                 {errors.name && (
-                  <p className="text-sm text-red-500">{errors.name.message}</p>
+                  <p className="text-sm text-text-primary">{errors.name.message}</p>
                 )}
               </div>
               <div className="space-y-2">
@@ -94,12 +94,12 @@ export default function ContactPage() {
                     },
                   })}
                   className={`w-full rounded-xl border ${
-                    errors.email ? 'border-red-500' : 'border-slate-200/80'
+                    errors.email ? 'border-black' : 'border-slate-200/80'
                   } bg-background px-4 py-3 text-sm text-text-primary outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/50`}
                   placeholder="me@rca.ac.rw"
                 />
                 {errors.email && (
-                  <p className="text-sm text-red-500">{errors.email.message}</p>
+                  <p className="text-sm text-text-primary">{errors.email.message}</p>
                 )}
               </div>
             </div>
@@ -118,12 +118,12 @@ export default function ContactPage() {
                   maxLength: { value: 100, message: 'Subject must be less than 100 characters' }
                 })}
                 className={`w-full rounded-xl border ${
-                  errors.subject ? 'border-red-500' : 'border-slate-200/80'
+                  errors.subject ? 'border-black' : 'border-slate-200/80'
                 } bg-background px-4 py-3 text-sm text-text-primary outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/50`}
                 placeholder="What's this about?"
               />
               {errors.subject && (
-                <p className="text-sm text-red-500">{errors.subject.message}</p>
+                <p className="text-sm text-text-primary">{errors.subject.message}</p>
               )}
             </div>
             <div className="space-y-2">
@@ -142,12 +142,12 @@ export default function ContactPage() {
                 })}
                 rows={4}
                 className={`w-full rounded-xl border ${
-                  errors.message ? 'border-red-500' : 'border-slate-200/80'
+                  errors.message ? 'border-black' : 'border-slate-200/80'
                 } bg-background px-4 py-3 text-sm text-text-primary outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/50`}
                 placeholder="Tell us about your idea or question..."
               />
               {errors.message && (
-                <p className="text-sm text-red-500">{errors.message.message}</p>
+                <p className="text-sm text-text-primary">{errors.message.message}</p>
               )}
             </div>
             <button   

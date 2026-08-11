@@ -36,13 +36,13 @@ export function Textarea({
           'focus:border-accent focus:ring-2 focus:ring-accent/20 focus:outline-none',
           'hover:border-slate-300',
           'resize-none',
-          error && 'border-red-300 focus:border-red-500 focus:ring-red-500/20',
+          error && 'border-black focus:border-black focus:ring-black',
           className,
         )}
         {...props}
       />
       {error && (
-        <p className="mt-1.5 text-xs font-medium text-red-600">{error}</p>
+        <p className="mt-1.5 text-xs font-medium text-text-primary">{error}</p>
       )}
       {helperText && !error && (
         <p className="mt-1.5 text-xs text-text-muted">{helperText}</p>

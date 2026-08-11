@@ -99,7 +99,7 @@ export default function RegisterPage() {
         </div>
 
         {error && (
-          <div className="mb-4 rounded-xl bg-red-100 p-4 text-sm text-red-700">
+          <div className="mb-4 rounded-xl bg-black p-4 text-sm text-text-primary">
             {error}
           </div>
         )}

@@ -32,12 +32,12 @@ interface Reaction {
 
 // Reaction config with icons and labels
 const reactionConfig: Record<ReactionType, { icon: any; label: string; color: string }> = {
-  like: { icon: ThumbsUp, label: 'Like', color: 'text-blue-500' },
-  love: { icon: Heart, label: 'Love', color: 'text-red-500' },
-  smile: { icon: Smile, label: 'Awesome', color: 'text-yellow-500' },
-  rocket: { icon: Rocket, label: 'Innovative', color: 'text-purple-500' },
-  zap: { icon: Zap, label: 'Exciting', color: 'text-orange-500' },
-  star: { icon: Star, label: 'Amazing', color: 'text-amber-500' },
+  like: { icon: ThumbsUp, label: 'Like', color: 'text-text-primary' },
+  love: { icon: Heart, label: 'Love', color: 'text-text-primary' },
+  smile: { icon: Smile, label: 'Awesome', color: 'text-text-primary' },
+  rocket: { icon: Rocket, label: 'Innovative', color: 'text-text-primary' },
+  zap: { icon: Zap, label: 'Exciting', color: 'text-text-primary' },
+  star: { icon: Star, label: 'Amazing', color: 'text-text-primary' },
 }
 
 export default function ProjectsPage() {
@@ -169,9 +169,9 @@ export default function ProjectsPage() {
   if (error) {
     return (
       <Section title="Robotics Projects" eyebrow="Builds & research" description="Something went wrong.">
-        <div className="rounded-lg bg-red-50 border border-red-200 p-6 text-center">
-          <p className="text-red-600 mb-2 font-semibold">Unable to load projects</p>
-          <p className="text-sm text-red-500">{error}</p>
+        <div className="rounded-lg bg-black border border-black p-6 text-center">
+          <p className="text-text-primary mb-2 font-semibold">Unable to load projects</p>
+          <p className="text-sm text-text-primary">{error}</p>
         </div>
       </Section>
     )
@@ -277,7 +277,7 @@ export default function ProjectsPage() {
                     )}
 
                     <div className="mt-4 flex items-center justify-between">
-                      <Link to={`/projects/${project._id}`} className="text-sm text-blue-500">
+                      <Link to={`/projects/${project._id}`} className="text-sm text-text-primary">
                         Read more
                       </Link>
                       <div className="flex items-center gap-3">
