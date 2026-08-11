@@ -120,3 +120,78 @@ small {
 .robot-icon { display:flex;height:2.75rem;width:2.75rem;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.15); }
 .robot-icon:hover { border-color:#9eff00;color:#9eff00; }
 @media(max-width:767px){.hero-shell{min-height:860px}.hero-shell>img{opacity:.58;object-position:70% center}}
+/* Robotics landing theme */
+.robotics-home { background:#050b14; color:#fff; transition:background-color .35s ease,color .35s ease; }
+.robot-navbar { border-color:rgba(255,255,255,.1); background:rgba(5,11,20,.88); color:#fff; transition:background-color .35s ease,border-color .35s ease,color .35s ease; }
+.robot-brand { color:#fff; }
+.robot-nav-link { color:#94a3b8; }
+.robot-nav-link:hover,.robot-nav-link.is-active { color:#9eff00; background:rgba(158,255,0,.08); }
+.theme-toggle { border-color:rgba(255,255,255,.18); background:rgba(255,255,255,.05); color:#fff; }
+.theme-toggle:hover { border-color:#9eff00; color:#9eff00; transform:rotate(12deg); }
+.robot-mobile-menu { border-color:rgba(255,255,255,.1); background:rgba(8,18,31,.96); }
+.discipline-card,.project-card,.lab-section { transition:background-color .35s ease,border-color .35s ease,box-shadow .35s ease; }
+
+.light body { background:#f4f7f5; color:#10212b; }
+.light .robot-navbar { border-color:rgba(10,37,50,.12); background:rgba(248,251,249,.9); color:#10212b; box-shadow:0 8px 30px rgba(12,36,48,.06); }
+.light .robot-brand { color:#10212b; }
+.light .robot-nav-link { color:#5b6870; }
+.light .robot-nav-link:hover,.light .robot-nav-link.is-active { color:#3d7300; background:rgba(98,170,0,.1); }
+.light .theme-toggle { border-color:rgba(10,37,50,.15); background:#fff; color:#17313f; }
+.light .robot-mobile-menu { border-color:rgba(10,37,50,.12); background:rgba(248,251,249,.98); }
+.light .robotics-home { background:#f4f7f5; color:#10212b; }
+.light .robotics-home .hero-shell { color:#fff; }
+.light .robotics-home .lab-section { background:#eaf0ec; border-color:rgba(10,37,50,.12); }
+.light .robotics-home .discipline-card { border-color:rgba(10,37,50,.12); }
+.light .robotics-home .discipline-card:hover { background:#fff; box-shadow:0 20px 50px rgba(16,45,55,.1); }
+.light .robotics-home .project-card { background:#fff; color:#10212b; }
+.light .robotics-home .project-card:hover { background:#f8fbf9; box-shadow:0 20px 50px rgba(16,45,55,.1); }
+.light .robotics-home [class*="border-white"] { border-color:rgba(10,37,50,.13); }
+.light .robotics-home [class*="bg-white/10"] { background-color:rgba(10,37,50,.08); }
+.light .robotics-home .hero-shell [class*="border-white"],.light .robotics-home .hero-shell [class*="bg-white"] { border-color:rgba(255,255,255,.16); }
+.light .robotics-home .cta-section { color:#06100b; }
+.light .robot-icon { border-color:rgba(10,37,50,.2); }
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.hero-shell img{transform:none!important}}
+/* Global application theme */
+.app-shell { min-height:100vh; transition:background-color .35s ease,color .35s ease; }
+html:not(.light) body,html:not(.light) .app-shell { background:#050b14; color:#e8eef2; }
+html:not(.light) .app-shell .bg-background { background-color:#050b14; }
+html:not(.light) .app-shell .bg-surface,
+html:not(.light) .app-shell .bg-white,
+html:not(.light) .app-shell .bg-white\/90 { background-color:#0b1724; }
+html:not(.light) .app-shell .bg-slate-50,
+html:not(.light) .app-shell .bg-slate-50\/50 { background-color:#0a1520; }
+html:not(.light) .app-shell .bg-slate-100 { background-color:#101e2b; }
+html:not(.light) .app-shell .bg-slate-200 { background-color:#172735; }
+html:not(.light) .app-shell .from-white { --tw-gradient-from:#0b1724 var(--tw-gradient-from-position); --tw-gradient-to:rgba(11,23,36,0) var(--tw-gradient-to-position); }
+html:not(.light) .app-shell .to-white { --tw-gradient-to:#0b1724 var(--tw-gradient-to-position); }
+html:not(.light) .app-shell .to-slate-50\/50 { --tw-gradient-to:rgba(10,21,32,.5) var(--tw-gradient-to-position); }
+html:not(.light) .app-shell .text-text-primary,
+html:not(.light) .app-shell .text-slate-900,
+html:not(.light) .app-shell .text-slate-800,
+html:not(.light) .app-shell .text-slate-700 { color:#edf3f6; }
+html:not(.light) .app-shell .text-text-muted,
+html:not(.light) .app-shell .text-slate-600,
+html:not(.light) .app-shell .text-slate-500 { color:#95a6b2; }
+html:not(.light) .app-shell .text-primary { color:#73d9e8; }
+html:not(.light) .app-shell .border-slate-50,
+html:not(.light) .app-shell .border-slate-100,
+html:not(.light) .app-shell .border-slate-200,
+html:not(.light) .app-shell .border-slate-200\/50,
+html:not(.light) .app-shell .border-slate-200\/70,
+html:not(.light) .app-shell .border-slate-200\/80,
+html:not(.light) .app-shell .border-slate-300,
+html:not(.light) .app-shell .border-slate-300\/50 { border-color:rgba(148,163,184,.18); }
+html:not(.light) .app-shell input,
+html:not(.light) .app-shell textarea,
+html:not(.light) .app-shell select { background:#0b1724; color:#edf3f6; border-color:rgba(148,163,184,.25); color-scheme:dark; }
+html:not(.light) .app-shell input::placeholder,
+html:not(.light) .app-shell textarea::placeholder { color:#718492; }
+html:not(.light) .app-shell footer { background-color:#07111b; border-color:rgba(148,163,184,.16); }
+html:not(.light) .app-shell footer a.bg-white { background:#0e1d2a; }
+html:not(.light) .app-shell table { color:#dfe8ed; }
+html:not(.light) .app-shell tbody tr { border-color:rgba(148,163,184,.14); }
+html:not(.light) .app-shell [role="dialog"] { color:#edf3f6; }
+
+.light body,.light .app-shell { background:#f8fafc; color:#0f172a; }
+.light .app-shell { color-scheme:light; }

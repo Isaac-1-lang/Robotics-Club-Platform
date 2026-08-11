@@ -1,4 +1,6 @@
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { Moon, Sun } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import Footer from './components/layout/Footer'
 import Navbar from './components/layout/Navbar'
@@ -20,9 +22,17 @@ function App() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin') || location.pathname.startsWith('/member');
   const isAuthPage = ['/login', '/register'].includes(location.pathname);
+  const [lightMode, setLightMode] = useState(() => localStorage.getItem('rca-theme') === 'light');
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('light', lightMode);
+    localStorage.setItem('rca-theme', lightMode ? 'light' : 'dark');
+  }, [lightMode]);
+
+  const toggleTheme = () => setLightMode(value => !value);
 
   return (
-    <div className="min-h-screen bg-background text-text-primary">
+    <div className="app-shell min-h-screen bg-background text-text-primary">
       <Toaster
         position="top-center"
         toastOptions={{
@@ -49,9 +59,14 @@ function App() {
         }}
       />
       {!isAdmin && (
-        <Navbar />
+        <Navbar lightMode={lightMode} onToggleTheme={toggleTheme} />
       )}
-      <main className={isAdmin ? "" : ""}>
+      {isAdmin && (
+        <button type="button" onClick={toggleTheme} className="theme-toggle fixed right-5 top-5 z-[100] flex h-11 w-11 items-center justify-center rounded-full border shadow-lg backdrop-blur" aria-label={lightMode ? 'Switch to dark mode' : 'Switch to light mode'}>
+          {lightMode ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+        </button>
+      )}
+      <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />

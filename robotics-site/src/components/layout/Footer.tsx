@@ -6,7 +6,7 @@ const socials = [
   { icon: Github, label: 'GitHub', href: 'https://github.com/ROBOTICS-CLUB1' },
   { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com' },
   { icon: Instagram, label: 'Instagram', href: 'https://instagram.com/isaacniyo78' },
-  { icon: Mail, label: 'Email', href: 'mailto:isaprecieux112@gmail.com' },
+  { icon: Mail, label: 'Email', href: 'mailto:robotic.club@rca.ac.rw' },
 ]
 
 export default function Footer() {
@@ -17,7 +17,7 @@ export default function Footer() {
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <img
-                src="/image.png"
+                src="/logoBlack.png"
                 alt="Robotics Club Logo"
                 className="h-12 w-12 rounded-full ring-2 ring-primary/10"
               />
@@ -57,11 +57,11 @@ export default function Footer() {
               Nyabihu District, Rwanda
             </p>
             <a
-              href="mailto:isaprecieux112@gmail.com"
+              href="mailto:robotic.club@rca.ac.rw"
               className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-accent"
             >
               <Mail className="h-4 w-4" />
-              isaprecieux112@gmail.com
+              robotic.club@rca.ac.rw
             </a>
           </div>
 

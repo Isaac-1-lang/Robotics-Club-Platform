@@ -181,11 +181,11 @@ export default function ContactPage() {
             <div className="mt-4 space-y-3 text-sm text-text-primary">
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-primary" />
-                isaprecieux112@gmail.com
+                robotic.club@rca.ac.rw
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-primary" />
-                +250 788 598 775
+                +250 7994 01377
               </div>
               <div className="flex items-center gap-2">
                 <GitBranchIcon className="h-4 w-4 text-primary" />

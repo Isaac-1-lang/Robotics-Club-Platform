@@ -148,7 +148,7 @@ export const events = [
   {
     id: 'e1',
     title: 'RCA Robotics Demo Day',
-    date: 'Feb 12, 2026',
+    date: 'Sept 13, 2026',
     status: 'upcoming',
     location: 'Rwanda Coding Academy Lab',
     description:
@@ -157,7 +157,7 @@ export const events = [
   {
     id: 'e2',
     title: 'Pan-African Robotics Challenge',
-    date: 'Mar 24, 2026',
+    date: 'JAN 24, 2027',
     status: 'upcoming',
     location: 'Kigali Convention Centre',
     description:
