@@ -111,3 +111,12 @@ small {
     outline-offset: 2px;
   }
 }
+
+.robotics-home { font-family: 'Jost', system-ui, sans-serif; }
+.tech-grid { background-image: linear-gradient(rgba(158,255,0,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(158,255,0,.035) 1px,transparent 1px); background-size:64px 64px; mask-image:linear-gradient(to bottom,black,transparent 86%); }
+.section-kicker { display:flex;align-items:center;gap:.75rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#9eff00; }
+.section-kicker::before { content:'';width:2rem;height:1px;background:currentColor; }
+.robot-button { display:inline-flex;align-items:center;gap:.75rem;border-radius:2px;padding:.875rem 1.5rem;font-size:.875rem;font-weight:700; }
+.robot-icon { display:flex;height:2.75rem;width:2.75rem;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.15); }
+.robot-icon:hover { border-color:#9eff00;color:#9eff00; }
+@media(max-width:767px){.hero-shell{min-height:860px}.hero-shell>img{opacity:.58;object-position:70% center}}

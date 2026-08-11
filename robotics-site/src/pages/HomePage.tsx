@@ -1,353 +1,65 @@
-import { ArrowRight, Sparkles, Cpu, Shield, Calendar } from 'lucide-react'
+import { ArrowRight, Bot, CalendarDays, CircuitBoard, Cpu, MapPin, Radio, ScanLine, Wrench } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { whyRobotics, events } from '../data/content'
+import { events } from '../data/content'
 import { getProjects, type ProjectData } from '../apis/projectApis'
-import { getPosts, type PostData } from '../apis/postsApi'
-import { Card } from '../components/ui/Card'
-import { Section } from '../components/ui/Section'
-import { buttonClasses } from '../components/ui/buttonStyles'
+
+const disciplines = [
+  { icon: CircuitBoard, title: 'Embedded systems', copy: 'Design circuits, program microcontrollers, and turn sensor data into real-world action.' },
+  { icon: ScanLine, title: 'AI & perception', copy: 'Train robots to see, understand, and navigate changing environments safely.' },
+  { icon: Wrench, title: 'Mechanical design', copy: 'Prototype mechanisms, fabricate parts, and engineer machines built to perform.' },
+]
+
+const fallbackProjects = [
+  { _id: 'rover', title: 'Autonomous vision rover', content: 'A field-ready rover combining LiDAR, stereo vision, and adaptive path planning.', tags: [{ _id: 'ros', name: 'ROS2' }, { _id: 'cv', name: 'OpenCV' }], mainTag: { name: 'Autonomy' } },
+  { _id: 'arm', title: 'Precision robotic arm', content: 'A modular six-axis arm engineered for repeatable pick-and-place tasks.', tags: [{ _id: 'kin', name: 'Kinematics' }, { _id: 'cpp', name: 'C++' }], mainTag: { name: 'Hardware' } },
+  { _id: 'mesh', title: 'Smart campus sensor mesh', content: 'Low-power connected nodes measuring air quality, occupancy, and energy use.', tags: [{ _id: 'lora', name: 'LoRa' }, { _id: 'mqtt', name: 'MQTT' }], mainTag: { name: 'IoT' } },
+] as ProjectData[]
+
+const reveal = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-80px' }, transition: { duration: 0.55 } }
 
 export default function HomePage() {
   const [projects, setProjects] = useState<ProjectData[]>([])
-  const [posts, setPosts] = useState<PostData[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [projectsData, postsData] = await Promise.all([
-          getProjects(),
-          getPosts()
-        ])
-        setProjects(projectsData.projects)
-        setPosts(postsData.posts)
-      } catch (err: any) {
-        let errorMessage = 'Failed to load content.'
-
-        if (err.message && err.message.includes('Network Error')) {
-          errorMessage = 'Network Error: Check Sanity CORS settings.'
-        } else if (err.statusCode === 401 || err.statusCode === 403) {
-          errorMessage = 'Access Denied: Check API Token.'
-        }
-        setError(errorMessage)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchData()
-  }, [])
-
-  const featuredProjects = projects.slice(0, 3)
-  const featuredPosts = posts.slice(0, 3)
-  const upcomingEvents = events.filter((event) => event.status === 'upcoming')
+  useEffect(() => { getProjects().then(data => setProjects(data.projects.slice(0, 3))).catch(() => setProjects([])) }, [])
+  const featured = projects.length ? projects : fallbackProjects
+  const upcoming = events.filter(event => event.status === 'upcoming').slice(0, 2)
 
   return (
-    <>
-      <Section >
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/90 via-primary to-slate-900 px-6 py-12 sm:px-10 sm:py-16 shadow-soft">
-          <div className="absolute inset-0 bg-[size:40px_40px] bg-grid-glow opacity-30" />
-          <div className="relative grid gap-10 lg:grid-cols-2">
-            <div className="space-y-6 text-white">
-              <div className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide">
-                Rwanda Coding Academy Robotics Club
-              </div>
-              <h1 className="text-4xl font-bold leading-tight sm:text-5xl">
-                Build, test, and launch robots and AI models that shape Rwanda&apos;s future.
-              </h1>
-              <p className="max-w-2xl text-base text-slate-200 leading-relaxed">
-                We are a student-led club crafting autonomous systems, IoT networks,
-                and AI-driven robotics. Join a community that prototypes boldly and
-                competes globally.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Link
-                  to="/register"
-                  className={buttonClasses({
-                    variant: 'secondary',
-                    className: 'shadow-lg shadow-accent/40',
-                  })}
-                >
-                  Request Membership
-                </Link>
-                <Link
-                  to="/login"
-                  className={buttonClasses({
-                    variant: 'ghost',
-                    className: 'border-white/40 text-black hover:text-white',
-                  })}
-                >
-                  Login
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-                {[
-                  { label: 'Active Projects', value: '15+' },
-                  { label: 'Members', value: '30+' },
-                ].map((item) => (
-                  <div
-                    key={item.label}
-                    className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
-                  >
-                    <p className="text-lg font-bold">{item.value}</p>
-                    <p className="text-slate-200">{item.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="absolute -inset-10 rounded-full bg-accent/20 blur-3xl" />
-              <div className="relative flex h-full items-center justify-center">
-                <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/10 p-6 backdrop-blur">
-                  <div className="flex items-center gap-3">
-                    <img src="/image.png" className="h-11 w-11 rounded-full" />
-                    <div>
-                      <p className="text-sm text-slate-200">Project Spotlight</p>
-                      <p className="text-lg font-semibold">AI Vision Rover</p>
-                    </div>
-                  </div>
-                  <div className="mt-4 space-y-3 text-sm text-slate-100">
-                    <p>
-                      Our autonomous rover blends computer vision, sensor fusion, and
-                      precise motor control to adapt to dynamic courses.
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {['OpenCV', 'Edge AI', 'ROS2'].map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full bg-white/10 px-3 py-1 text-xs"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className="robotics-home -mt-[76px] overflow-hidden bg-[#050b14] text-white">
+      <section className="hero-shell relative flex min-h-[820px] items-end overflow-hidden border-b border-white/10 pt-28 lg:min-h-[900px]">
+        <img src="/assets/rca-humanoid-hero.png" alt="Advanced humanoid robot in the RCA robotics lab" className="absolute inset-0 h-full w-full object-cover object-[66%_center]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,#050b14_0%,rgba(5,11,20,.94)_30%,rgba(5,11,20,.28)_68%,rgba(5,11,20,.36)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(0deg,#050b14_0%,transparent_38%)]" />
+        <div className="tech-grid absolute inset-0 opacity-30" />
+        <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-12 px-5 pb-12 pt-28 sm:px-8 lg:grid-cols-[1.05fr_.95fr] lg:px-10 lg:pb-16">
+          <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: .7 }} className="max-w-3xl self-center">
+            <p className="section-kicker mb-7">Rwanda Coding Academy · Robotics Club</p>
+            <h1 className="max-w-3xl text-[3.2rem] font-semibold leading-[.94] tracking-[-.055em] sm:text-7xl lg:text-[5.7rem]">We engineer<br />machines that<br /><span className="text-[#9eff00]">move Rwanda.</span></h1>
+            <p className="mt-7 max-w-xl text-base leading-7 text-slate-300 sm:text-lg">A student-led engineering lab where code meets metal. We build autonomous systems, intelligent machines, and the skills to solve real problems.</p>
+            <div className="mt-9 flex flex-wrap gap-3"><Link to="/projects" className="robot-button bg-[#9eff00] text-[#06100b] hover:bg-white">Explore our builds <ArrowRight className="h-4 w-4" /></Link><Link to="/register" className="robot-button border border-white/25 bg-white/5 text-white hover:border-[#9eff00] hover:text-[#9eff00]">Join the club</Link></div>
+          </motion.div>
+          <div className="hidden items-end justify-end lg:flex"><div className="mb-5 w-72 border-l border-[#9eff00]/60 bg-[#07111d]/70 p-5 backdrop-blur-md"><div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[.2em] text-[#9eff00]">System live <Radio className="h-4 w-4 animate-pulse" /></div><div className="mt-5 grid grid-cols-2 gap-4"><div><b className="text-2xl">ROS2</b><p className="text-sm text-slate-500">Control stack</p></div><div><b className="text-2xl">360°</b><p className="text-sm text-slate-500">LiDAR scan</p></div></div></div></div>
+          <div className="col-span-full grid border-y border-white/10 bg-[#07111d]/70 backdrop-blur sm:grid-cols-3">{[['30+', 'active builders'], ['15+', 'working prototypes'], ['04', 'engineering squads']].map(([value, label]) => <div key={label} className="flex items-center gap-4 border-white/10 px-6 py-5 sm:border-r last:border-r-0"><b className="font-mono text-2xl text-[#9eff00]">{value}</b><span className="text-xs uppercase tracking-[.17em] text-slate-400">{label}</span></div>)}</div>
         </div>
-      </Section>
+      </section>
 
-      {error && (
-        <Section className="py-2">
-          <div className="rounded-lg bg-red-50 border border-red-200 p-4 text-sm text-red-600">
-            {error}
-          </div>
-        </Section>
-      )}
+      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:px-10 lg:py-32">
+        <motion.div {...reveal} className="grid gap-10 lg:grid-cols-[.8fr_1.2fr] lg:gap-20"><div><p className="section-kicker">What happens here</p><h2 className="mt-5 text-4xl font-semibold leading-tight sm:text-5xl">Not just theory.<br /><span className="text-slate-500">Built, broken, rebuilt.</span></h2></div><p className="max-w-2xl self-end text-lg leading-8 text-slate-400">Members work in cross-disciplinary squads from first sketch to field test. Every wire, line of code, and design decision serves a working machine.</p></motion.div>
+        <div className="mt-14 grid border-y border-white/10 md:grid-cols-3">{disciplines.map((item, i) => <motion.article key={item.title} {...reveal} className="group min-h-[310px] border-white/10 p-8 md:border-r last:border-r-0"><span className="font-mono text-xs text-slate-600">/0{i + 1}</span><item.icon className="mt-12 h-9 w-9 text-[#9eff00]" strokeWidth={1.5} /><h3 className="mt-7 text-2xl font-semibold">{item.title}</h3><p className="mt-4 leading-7 text-slate-400">{item.copy}</p></motion.article>)}</div>
+      </section>
 
-      <Section
-        title="Featured Robotics Projects"
-        eyebrow="What we're building"
-        description="From AI vision to IoT sensor networks, explore the engineering work powering our competitions and demos."
-      >
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {isLoading ? (
-            <div className="col-span-full py-12 text-center">
-              <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
-              <p className="mt-4 text-text-muted">Loading projects...</p>
-            </div>
-          ) : featuredProjects.length > 0 ? (
-            featuredProjects.map((project) => (
-              <motion.div
-                key={project._id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3 }}
-                whileHover={{ y: -8 }}
-              >
-                <Card className="group h-full overflow-hidden">
-                  <div className="relative h-48 overflow-hidden">
-                    {project.imageUrl ? (
-                      <img
-                        src={project.imageUrl}
-                        alt={project.title}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                    ) : (
-                      <div className="h-full w-full bg-gradient-to-br from-primary/10 via-accent/20 to-white" />
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                    <div className="absolute top-4 left-4">
-                      <span className="inline-flex rounded-full bg-white/90 backdrop-blur-sm px-3 py-1 text-xs font-bold text-primary shadow-sm">
-                        {project.mainTag?.name || 'Hardware'}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="space-y-4 p-6">
-                    <h3 className="text-xl font-bold text-text-primary line-clamp-2">
-                      {project.title}
-                    </h3>
-                    <p className="text-sm text-text-muted leading-relaxed line-clamp-3">
-                      {project.content}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.slice(0, 3).map((tag) => (
-                        <span
-                          key={tag._id}
-                          className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-text-muted transition-colors group-hover:bg-accent/10 group-hover:text-primary"
-                        >
-                          {tag.name || 'Unnamed'}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </Card>
-              </motion.div>
-            ))
-          ) : (
-            <div className="col-span-full rounded-2xl border-2 border-dashed border-slate-200 py-16 text-center">
-              <p className="font-semibold text-lg text-text-primary">No projects found</p>
-              <p className="mt-2 text-sm text-text-muted">Check back later for new projects.</p>
-            </div>
-          )}
-        </div>
-      </Section>
+      <section className="border-y border-white/10 bg-[#08121f] py-24 lg:py-32"><div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        <motion.div {...reveal} className="flex items-end justify-between gap-5"><div><p className="section-kicker">From the lab</p><h2 className="mt-5 text-4xl font-semibold sm:text-5xl">Machines in progress.</h2></div><Link to="/projects" className="hidden items-center gap-2 text-sm text-[#9eff00] sm:flex">View all <ArrowRight className="h-4 w-4" /></Link></motion.div>
+        <div className="mt-12 grid gap-px border border-white/10 bg-white/10 lg:grid-cols-3">{featured.map((project, i) => <motion.article key={project._id} {...reveal} className="group flex min-h-[360px] flex-col bg-[#08121f] p-8 hover:bg-[#0b1827]"><div className="flex justify-between text-[#9eff00]"><span className="font-mono text-xs uppercase tracking-widest">{project.mainTag?.name || 'Robotics'}</span>{i === 0 ? <Bot /> : <Cpu />}</div><div className="mt-auto"><span className="font-mono text-xs text-slate-600">PROJECT / 0{i + 1}</span><h3 className="mt-3 text-2xl font-semibold">{project.title}</h3><p className="mt-4 line-clamp-3 leading-7 text-slate-400">{project.content}</p><div className="mt-6 flex gap-2">{project.tags?.slice(0, 2).map(tag => <span key={tag._id} className="border border-white/10 px-2 py-1 font-mono text-[10px] uppercase text-slate-400">{tag.name}</span>)}</div></div></motion.article>)}</div>
+      </div></section>
 
-      <Section
-        title="Why Robotics at RCA?"
-        eyebrow="Learn by building"
-        description="We connect engineering, design, and research so members can ship prototypes that matter."
-      >
-        <div className="grid gap-6 md:grid-cols-3">
-          {whyRobotics.map((item, idx) => (
-            <Card
-              key={item.title}
-              className="p-6 transition hover:-translate-y-1 hover:shadow-lg"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/15 text-primary">
-                {idx === 0 && <Cpu className="h-6 w-6" />}
-                {idx === 1 && <Shield className="h-6 w-6" />}
-                {idx === 2 && <Sparkles className="h-6 w-6" />}
-              </div>
-              <h3 className="mt-4 text-lg font-bold text-text-primary">
-                {item.title}
-              </h3>
-              <p className="mt-2 text-sm text-text-muted leading-relaxed">
-                {item.description}
-              </p>
-            </Card>
-          ))}
-        </div>
-      </Section>
+      <section className="mx-auto grid max-w-7xl gap-14 px-5 py-24 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:px-10 lg:py-32">
+        <motion.div {...reveal}><p className="section-kicker">Next on the bench</p><h2 className="mt-5 text-4xl font-semibold sm:text-5xl">Show up.<br />Build something real.</h2><p className="mt-6 text-slate-400">Workshops, competitions, and open lab sessions give every member a place to test their ideas.</p></motion.div>
+        <div className="divide-y divide-white/10 border-y border-white/10">{upcoming.map(event => <article key={event.id} className="grid gap-5 py-7 sm:grid-cols-[110px_1fr_auto] sm:items-center"><div className="font-mono text-xs uppercase text-[#9eff00]"><CalendarDays className="mb-2 h-5 w-5" />{event.date}</div><div><h3 className="text-xl">{event.title}</h3><p className="mt-2 flex gap-2 text-sm text-slate-500"><MapPin className="h-4 w-4" />{event.location}</p></div><Link to="/events" className="robot-icon"><ArrowRight className="h-4 w-4" /></Link></article>)}</div>
+      </section>
 
-      <Section
-        title="Upcoming Events"
-        eyebrow="Compete & showcase"
-        description="Join our next competitions, demo days, and workshops to sharpen your robotics skills."
-      >
-        <div className="grid gap-6 md:grid-cols-2">
-          {upcomingEvents.map((event) => (
-            <Card
-              key={event.id}
-              className="flex h-full flex-col justify-between p-6 transition hover:-translate-y-1 hover:shadow-lg"
-            >
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-sm font-semibold text-primary">
-                  <Calendar className="h-4 w-4" />
-                  {event.date}
-                </div>
-                <h3 className="text-xl font-bold text-text-primary">
-                  {event.title}
-                </h3>
-                <p className="text-sm text-text-muted leading-relaxed">
-                  {event.description}
-                </p>
-                <p className="text-sm font-semibold text-text-primary">
-                  {event.location}
-                </p>
-              </div>
-              <Link
-                to="/events"
-                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-accent"
-              >
-                View details
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Card>
-          ))}
-        </div>
-      </Section>
-      <Section
-        title="Popular Blogs"
-        eyebrow="Latest insights"
-        description="Stay updated with our latest articles, tutorials, and insights from the robotics community."
-      >
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {isLoading ? (
-            <div className="col-span-full py-12 text-center">
-              <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
-              <p className="mt-4 text-text-muted">Loading blogs...</p>
-            </div>
-          ) : featuredPosts.length > 0 ? (
-            featuredPosts.map((post) => (
-              <motion.div
-                key={post._id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3 }}
-                whileHover={{ y: -8 }}
-              >
-                <Card className="group h-full overflow-hidden">
-                  <div className="relative h-48 overflow-hidden">
-                    {post.imageUrl ? (
-                      <img
-                        src={post.imageUrl}
-                        alt={post.title}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                    ) : (
-                      <div className="h-full w-full bg-gradient-to-br from-primary/10 via-accent/20 to-white" />
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                    <div className="absolute top-4 left-4">
-                      <span className="inline-flex rounded-full bg-white/90 backdrop-blur-sm px-3 py-1 text-xs font-bold text-primary shadow-sm">
-                        {post.mainTag?.name || 'Tag'}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="space-y-4 p-6">
-                    <h3 className="text-xl font-bold text-text-primary line-clamp-2">
-                      {post.title}
-                    </h3>
-                    <p className="text-sm text-text-muted leading-relaxed line-clamp-3">
-                      {post.content}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {post.tags.slice(0, 3).map((tag) => (
-                        <span
-                          key={tag._id}
-                          className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-text-muted transition-colors group-hover:bg-accent/10 group-hover:text-primary"
-                        >
-                          {tag.name}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="flex items-center justify-between border-t border-slate-100 pt-4 text-xs text-text-muted">
-                      <span className="font-medium">By {post.author.username}</span>
-                      <span>{new Date(post.createdAt).toLocaleDateString()}</span>
-                    </div>
-                  </div>
-                </Card>
-              </motion.div>
-            ))
-          ) : (
-            <div className="col-span-full rounded-2xl border-2 border-dashed border-slate-200 py-16 text-center">
-              <p className="font-semibold text-lg text-text-primary">No blogs found</p>
-              <p className="mt-2 text-sm text-text-muted">Check back later for new articles.</p>
-            </div>
-          )}
-        </div>
-      </Section>
-    </>
+      <section className="bg-[#9eff00] px-5 py-20 text-[#06100b]"><div className="mx-auto flex max-w-7xl flex-col gap-8 lg:flex-row lg:items-center lg:justify-between"><div><p className="font-mono text-xs font-bold uppercase tracking-[.2em]">Applications open</p><h2 className="mt-4 text-4xl font-semibold sm:text-6xl">Your first robot starts here.</h2></div><Link to="/register" className="robot-button self-start bg-[#06100b] text-white hover:bg-white hover:text-[#06100b]">Request membership <ArrowRight className="h-4 w-4" /></Link></div></section>
+    </div>
   )
 }
-
