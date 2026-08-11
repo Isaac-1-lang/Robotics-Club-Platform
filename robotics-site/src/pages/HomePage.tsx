@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { events } from '../data/content'
 import { getProjects, type ProjectData } from '../apis/projectApis'
-import RoboticArm6DOF from '../components/RoboticArm6DOF'
+import RoboticArmVideo from '../components/RoboticArmVideo'
 
 const disciplines = [
   { icon: CircuitBoard, title: 'Embedded systems', copy: 'Design circuits, program microcontrollers, and turn sensor data into real-world action.' },
@@ -29,9 +29,9 @@ export default function HomePage() {
   return (
     <div className="robotics-home -mt-[76px] overflow-hidden">
       <section className="hero-shell relative flex min-h-[690px] items-center overflow-hidden border-b border-white/10 pt-20 lg:min-h-[760px]">
-                <RoboticArm6DOF />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,#050b14_0%,rgba(5,11,20,.94)_30%,rgba(5,11,20,.28)_68%,rgba(5,11,20,.36)_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(0deg,#050b14_0%,transparent_38%)]" />
+                <RoboticArmVideo />
+        <div className="hero-side-shade absolute inset-0" />
+        <div className="hero-bottom-shade absolute inset-0" />
         <div className="tech-grid absolute inset-0 opacity-30" />
         <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-8 px-5 pb-8 pt-20 sm:px-8 sm:pt-24 lg:grid-cols-[1.05fr_.95fr] lg:px-10 lg:pb-10 lg:pt-28">
           <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: .7 }} className="max-w-3xl self-center">
