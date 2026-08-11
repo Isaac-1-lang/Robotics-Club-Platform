@@ -1,9 +1,10 @@
 import { ArrowRight, Bot, CalendarDays, CircuitBoard, Cpu, MapPin, Radio, ScanLine, Wrench } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import { events } from '../data/content'
 import { getProjects, type ProjectData } from '../apis/projectApis'
+import RoboticArm6DOF from '../components/RoboticArm6DOF'
 
 const disciplines = [
   { icon: CircuitBoard, title: 'Embedded systems', copy: 'Design circuits, program microcontrollers, and turn sensor data into real-world action.' },
@@ -21,18 +22,14 @@ const reveal = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0
 
 export default function HomePage() {
   const [projects, setProjects] = useState<ProjectData[]>([])
-  const heroRef = useRef<HTMLElement>(null)
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 140])
-  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.08])
   useEffect(() => { getProjects().then(data => setProjects(data.projects.slice(0, 3))).catch(() => setProjects([])) }, [])
   const featured = projects.length ? projects : fallbackProjects
   const upcoming = events.filter(event => event.status === 'upcoming').slice(0, 2)
 
   return (
     <div className="robotics-home -mt-[76px] overflow-hidden">
-      <section ref={heroRef} className="hero-shell relative flex min-h-[820px] items-end overflow-hidden border-b border-white/10 pt-28 lg:min-h-[900px]">
-        <motion.img style={{ y: heroY, scale: heroScale }} initial={{ opacity: 0, scale: 1.05 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.1 }} src="/assets/rca-humanoid-hero.png" alt="Advanced humanoid robot in the RCA robotics lab" className="absolute inset-0 h-full w-full object-cover object-[66%_center]" />
+      <section className="hero-shell relative flex min-h-[820px] items-end overflow-hidden border-b border-white/10 pt-28 lg:min-h-[900px]">
+                <RoboticArm6DOF />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,#050b14_0%,rgba(5,11,20,.94)_30%,rgba(5,11,20,.28)_68%,rgba(5,11,20,.36)_100%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(0deg,#050b14_0%,transparent_38%)]" />
         <div className="tech-grid absolute inset-0 opacity-30" />

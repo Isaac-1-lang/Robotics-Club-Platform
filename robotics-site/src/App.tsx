@@ -1,6 +1,8 @@
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { Moon, Sun } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
+import RoboticsAtmosphere from './components/RoboticsAtmosphere'
 import { Toaster } from 'react-hot-toast'
 import Footer from './components/layout/Footer'
 import Navbar from './components/layout/Navbar'
@@ -33,6 +35,7 @@ function App() {
 
   return (
     <div className="app-shell min-h-screen bg-background text-text-primary">
+      <RoboticsAtmosphere />
       <Toaster
         position="top-center"
         toastOptions={{
@@ -66,7 +69,7 @@ function App() {
           {lightMode ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
         </button>
       )}
-      <main>
+      <motion.main key={location.pathname} initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .42, ease: [0.22, 1, 0.36, 1] }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
@@ -96,7 +99,7 @@ function App() {
           <Route path="/blogs" element={<BlogsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </main>
+      </motion.main>
       {/* No footer on login, register, and admin pages */}
       {!isAuthPage && !isAdmin && (
         <Footer />
