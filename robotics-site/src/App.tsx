@@ -40,8 +40,8 @@ function App() {
         position="top-center"
         toastOptions={{
           style: {
-            background: '#fff',
-            color: '#1e293b',
+            background: lightMode ? '#fff' : '#0b1724',
+            color: lightMode ? '#1e293b' : '#edf3f6',
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
             borderRadius: '12px',
             fontSize: '14px',
@@ -49,13 +49,13 @@ function App() {
           },
           success: {
             iconTheme: {
-              primary: '#ffffff',
+              primary: '#0B4EA2',
               secondary: '#fff',
             },
           },
           error: {
             iconTheme: {
-              primary: '#ffffff',
+              primary: '#0B4EA2',
               secondary: '#fff',
             },
           },
@@ -64,7 +64,7 @@ function App() {
       {!isAdmin && (
         <Navbar lightMode={lightMode} onToggleTheme={toggleTheme} />
       )}
-      {isAdmin && (
+      {location.pathname.startsWith('/member') && (
         <button type="button" onClick={toggleTheme} className="theme-toggle fixed right-5 top-5 z-[100] flex h-11 w-11 items-center justify-center rounded-full border shadow-lg backdrop-blur" aria-label={lightMode ? 'Switch to dark mode' : 'Switch to light mode'}>
           {lightMode ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
         </button>
@@ -84,7 +84,7 @@ function App() {
             path="/admin"
             element={
               <ProtectedRoute requiredRole="admin">
-                <AdminDashboard />
+                <AdminDashboard lightMode={lightMode} onToggleTheme={toggleTheme} />
               </ProtectedRoute>
             }
           />
