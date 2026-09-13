@@ -480,3 +480,18 @@ html:not(.light) .app-shell .bg-primary { background-color:var(--rca-blue); }
   .team-roster-card { min-height:82px;padding:.8rem; }
   .member-avatar { width:44px;height:44px; }
 }
+/* Dashboard states must remain readable after changing the application theme. */
+.light .app-shell .admin-dashboard .text-slate-400 { color:#64748b; }
+.light .app-shell .admin-dashboard .text-slate-300 { color:#64748b; }
+html:not(.light) .app-shell .admin-dashboard .hover\:bg-slate-50:hover,
+html:not(.light) .app-shell .admin-dashboard .hover\:bg-slate-100:hover { background-color:#172735; }
+html:not(.light) .app-shell .admin-dashboard .hover\:text-slate-900:hover,
+html:not(.light) .app-shell .admin-dashboard .hover\:text-slate-600:hover { color:#edf3f6; }
+.app-shell .admin-dashboard .hover\:bg-black:hover { background-color:#000; color:#fff; }
+.app-shell .admin-dashboard .hover\:bg-black:hover svg { color:inherit; }
+.app-shell .admin-dashboard :is(button,a,input,select,textarea):focus-visible {
+  outline:2px solid #38bdf8;
+  outline-offset:3px;
+}
+.light .app-shell .admin-dashboard :is(button,a,input,select,textarea):focus-visible { outline-color:#0b4ea2; }
+html:not(.light) .app-shell { color-scheme:dark; }

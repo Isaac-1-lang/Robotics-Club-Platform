@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Calendar, Check, Clock, Users, ShieldCheck, Zap, LayoutDashboard, UserCheck, Menu, X, Settings, BookOpen, Search, Bell, MoreVertical, Loader, Tag, Plus, Trash2, Edit2, Image as ImageIcon, Lock, User, BellRing } from 'lucide-react'
+import { Moon, Sun, Calendar, Check, Clock, Users, ShieldCheck, Zap, LayoutDashboard, UserCheck, Menu, X, Settings, BookOpen, Search, MoreVertical, Loader, Tag, Plus, Trash2, Edit2, Image as ImageIcon, Lock, User, BellRing } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { getPendingUsers, approveUser, rejectUser, getDashboardStats, getSystemTags, createSystemTags, updateSystemTags, deleteSystemTags, type PendingUser, type DashboardStats, type TagData } from '../apis/adminApi'
 import { changePassword } from '../apis/authApis'
@@ -10,7 +10,7 @@ import toast from 'react-hot-toast'
 
 type TabKey = 'overview' | 'members' | 'requests' | 'events' | 'settings' | 'projects' | 'blogs' | 'Tags'
 
-export default function AdminDashboard() {
+export default function AdminDashboard({ lightMode, onToggleTheme }: { lightMode: boolean; onToggleTheme: () => void }) {
   const [activeTab, setActiveTab] = useState<TabKey>('overview')
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
@@ -254,14 +254,14 @@ export default function AdminDashboard() {
   ]
 
   const statsItems = stats ? [
-    { label: 'Members', value: stats.users.members.toString(), icon: Users, color: 'text-text-primary', bg: 'bg-black' },
-    { label: 'Pending', value: stats.users.pending.toString(), icon: Clock, color: 'text-text-primary', bg: 'bg-black' },
-    { label: 'Posts', value: stats.posts.total.toString(), icon: BookOpen, color: 'text-text-primary', bg: 'bg-black' },
-    { label: 'Projects', value: stats.projects.total.toString(), icon: Zap, color: 'text-text-primary', bg: 'bg-black' },
+    { label: 'Members', value: stats.users.members.toString(), icon: Users, color: 'text-white', bg: 'bg-black' },
+    { label: 'Pending', value: stats.users.pending.toString(), icon: Clock, color: 'text-white', bg: 'bg-black' },
+    { label: 'Posts', value: stats.posts.total.toString(), icon: BookOpen, color: 'text-white', bg: 'bg-black' },
+    { label: 'Projects', value: stats.projects.total.toString(), icon: Zap, color: 'text-white', bg: 'bg-black' },
   ] : []
 
   return (
-    <div className="flex h-screen w-full bg-slate-50 text-slate-900 font-sans overflow-hidden">
+    <div className="admin-dashboard flex h-dvh w-full bg-slate-50 text-slate-900 font-sans overflow-hidden">
       {/* Sidebar - Fixed width */}
       <aside
         className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-slate-200 transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'
@@ -272,7 +272,7 @@ export default function AdminDashboard() {
           <div className="flex h-16 items-center px-6 border-b border-slate-100">
             <ShieldCheck className="h-7 w-7 text-text-primary mr-3" />
             <span className="text-lg font-bold text-slate-800">AdminPanel</span>
-            <button onClick={() => setSidebarOpen(false)} className="ml-auto lg:hidden text-slate-400">
+            <button onClick={() => setSidebarOpen(false)} aria-label="Close navigation" className="ml-auto lg:hidden text-slate-400">
               <X className="h-5 w-5" />
             </button>
           </div>
@@ -287,12 +287,12 @@ export default function AdminDashboard() {
                   setSidebarOpen(false)
                 }}
                 className={`flex w-full items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${activeTab === item.key
-                  ? 'bg-black text-text-primary'
+                  ? 'bg-black text-white'
                   : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
                   }`}
               >
                 <div className="flex items-center gap-3">
-                  <item.icon className={`h-4 w-4 ${activeTab === item.key ? 'text-text-primary' : 'text-slate-400'}`} />
+                  <item.icon className={`h-4 w-4 ${activeTab === item.key ? 'text-white' : 'text-slate-500'}`} />
                   {item.label}
                 </div>
                 {item.badge && (
@@ -325,9 +325,11 @@ export default function AdminDashboard() {
 
   {/* Logout button */}
   <button
-    className="w-full py-2 px-4 bg-black text-white text-sm font-medium rounded-md hover:bg-black transition-colors shadow-sm"
+    className="w-full py-2 px-4 bg-black text-white text-sm font-medium rounded-md hover:bg-black hover:text-white transition-colors shadow-sm"
     onClick={() => {
+      const savedTheme = localStorage.getItem('rca-theme')
       localStorage.clear()
+      if (savedTheme) localStorage.setItem('rca-theme', savedTheme)
       window.location.reload()
     }}
   >
@@ -348,9 +350,9 @@ export default function AdminDashboard() {
       {/* Main Content - Flex Column */}
       <main className="flex-1 flex flex-col h-full min-w-0 bg-slate-50/50">
         {/* Header - Fixed Height */}
-        <header className="h-16 flex items-center justify-between px-6 bg-white border-b border-slate-200 shrink-0">
+        <header className="h-16 flex items-center justify-between gap-3 px-4 sm:px-6 bg-white border-b border-slate-200 shrink-0">
           <div className="flex items-center gap-4">
-            <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-slate-500">
+            <button onClick={() => setSidebarOpen(true)} aria-label="Open navigation" className="lg:hidden text-slate-500">
               <Menu className="h-5 w-5" />
             </button>
             <h2 className="text-lg font-semibold text-slate-800 capitalize">{activeTab}</h2>
@@ -364,8 +366,11 @@ export default function AdminDashboard() {
                 className="h-9 w-64 rounded-md border border-slate-200 bg-slate-50 pl-9 pr-4 text-sm focus:border-black focus:ring-1 focus:ring-black outline-none"
               />
             </div>
-            <button className="text-slate-400 hover:text-slate-600">
-              <Bell className="h-5 w-5" />
+            <button type="button" onClick={onToggleTheme}
+              className="theme-toggle flex h-10 w-10 shrink-0 items-center justify-center rounded-full border"
+              aria-label={lightMode ? 'Switch to dark mode' : 'Switch to light mode'}
+              title={lightMode ? 'Switch to dark mode' : 'Switch to light mode'}>
+              {lightMode ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
             </button>
           </div>
         </header>
@@ -422,14 +427,14 @@ export default function AdminDashboard() {
                               <div className="flex items-center gap-2 shrink-0 ml-4">
                                 <button
                                   onClick={() => handleRequestAction(user._id, 'approved')}
-                                  className="p-1.5 text-text-primary hover:bg-black rounded-md transition-colors"
+                                  className="p-1.5 text-text-primary hover:bg-black hover:text-white rounded-md transition-colors"
                                   title="Approve"
                                 >
                                   <Check className="h-4 w-4" />
                                 </button>
                                 <button
                                   onClick={() => handleRequestAction(user._id, 'rejected')}
-                                  className="p-1.5 text-text-primary hover:bg-black rounded-md transition-colors"
+                                  className="p-1.5 text-text-primary hover:bg-black hover:text-white rounded-md transition-colors"
                                   title="Reject"
                                 >
                                   <X className="h-4 w-4" />
@@ -453,13 +458,13 @@ export default function AdminDashboard() {
                         <h3 className="font-semibold text-slate-800 mb-4">Quick Actions</h3>
                         <div className="space-y-2">
                           <button className="w-full flex items-center gap-3 p-2.5 text-sm text-slate-600 hover:bg-slate-50 rounded-lg transition-colors border border-slate-100 hover:border-slate-200">
-                            <div className="h-8 w-8 rounded-full bg-black text-text-primary flex items-center justify-center">
+                            <div className="h-8 w-8 rounded-full bg-black text-white flex items-center justify-center">
                               <BookOpen className="h-4 w-4" />
                             </div>
                             Create New Post
                           </button>
                           <button className="w-full flex items-center gap-3 p-2.5 text-sm text-slate-600 hover:bg-slate-50 rounded-lg transition-colors border border-slate-100 hover:border-slate-200">
-                            <div className="h-8 w-8 rounded-full bg-black text-text-primary flex items-center justify-center">
+                            <div className="h-8 w-8 rounded-full bg-black text-white flex items-center justify-center">
                               <Zap className="h-4 w-4" />
                             </div>
                             Add Project
@@ -469,12 +474,12 @@ export default function AdminDashboard() {
 
                       <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl shadow-sm p-5 text-white flex-1 flex flex-col justify-center items-center text-center">
                         <div className="h-12 w-12 rounded-full bg-white/10 flex items-center justify-center mb-3">
-                          <ShieldCheck className="h-6 w-6 text-text-primary" />
+                          <ShieldCheck className="h-6 w-6 text-white" />
                         </div>
                         <h3 className="font-semibold">System Status</h3>
-                        <p className="text-xs text-slate-400 mt-1">All systems operational</p>
+                        <p className="text-xs text-white/70 mt-1">All systems operational</p>
                         <div className="mt-4 flex items-center gap-2 text-xs bg-white/10 px-3 py-1 rounded-full">
-                          <div className="h-2 w-2 rounded-full bg-black animate-pulse" />
+                          <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                           Online
                         </div>
                       </div>
@@ -491,7 +496,7 @@ export default function AdminDashboard() {
                     <h3 className="font-semibold text-slate-800">All Members</h3>
                     <div className="flex gap-2">
                       <button className="px-3 py-1.5 text-xs font-medium bg-slate-100 text-slate-600 rounded-md hover:bg-slate-200">Filter</button>
-                      <button className="px-3 py-1.5 text-xs font-medium bg-black text-white rounded-md hover:bg-black">Export</button>
+                      <button className="px-3 py-1.5 text-xs font-medium bg-black text-white rounded-md hover:bg-black hover:text-white">Export</button>
                     </div>
                   </div>
                   <div className="flex-1 overflow-auto">
@@ -516,7 +521,7 @@ export default function AdminDashboard() {
                               </div>
                             </td>
                             <td className="px-6 py-3">
-                              <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${member.role === 'admin' ? 'bg-black text-text-primary' : 'bg-black text-text-primary'
+                              <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${member.role === 'admin' ? 'bg-black text-white' : 'bg-black text-white'
                                 }`}>
                                 {member.role}
                               </span>
@@ -563,13 +568,13 @@ export default function AdminDashboard() {
                               <div className="flex justify-end gap-2">
                                 <button
                                   onClick={() => handleRequestAction(user._id, 'approved')}
-                                  className="px-2 py-1 text-xs font-medium bg-black text-text-primary rounded hover:bg-black"
+                                  className="px-2 py-1 text-xs font-medium bg-black text-white rounded hover:bg-black hover:text-white"
                                 >
                                   Approve
                                 </button>
                                 <button
                                   onClick={() => handleRequestAction(user._id, 'rejected')}
-                                  className="px-2 py-1 text-xs font-medium bg-black text-text-primary rounded hover:bg-black"
+                                  className="px-2 py-1 text-xs font-medium bg-black text-white rounded hover:bg-black hover:text-white"
                                 >
                                   Reject
                                 </button>
@@ -600,7 +605,7 @@ export default function AdminDashboard() {
                     </div>
                     <button
                       onClick={() => { setEditingTag(null); setIsTagModalOpen(true) }}
-                      className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-black transition-colors shadow-sm font-medium"
+                      className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-black hover:text-white transition-colors shadow-sm font-medium"
                     >
                       <Plus className="h-4 w-4" />
                       Create Tag
@@ -635,14 +640,14 @@ export default function AdminDashboard() {
                               <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <button
                                   onClick={() => { setEditingTag(tag); setIsTagModalOpen(true) }}
-                                  className="p-2 text-slate-400 hover:text-text-primary hover:bg-black rounded-lg transition-colors"
+                                  className="p-2 text-slate-400 hover:bg-black hover:text-white rounded-lg transition-colors"
                                   title="Edit"
                                 >
                                   <Edit2 className="h-4 w-4" />
                                 </button>
                                 <button
                                   onClick={() => handleDeleteTag(tag._id)}
-                                  className="p-2 text-slate-400 hover:text-text-primary hover:bg-black rounded-lg transition-colors"
+                                  className="p-2 text-slate-400 hover:bg-black hover:text-white rounded-lg transition-colors"
                                   title="Delete"
                                 >
                                   <Trash2 className="h-4 w-4" />
@@ -678,7 +683,7 @@ export default function AdminDashboard() {
                     </div>
                     <button
                       onClick={() => { setEditingProject(null); setIsProjectModalOpen(true) }}
-                      className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-black transition-colors shadow-sm font-medium"
+                      className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-black hover:text-white transition-colors shadow-sm font-medium"
                     >
                       <Plus className="h-4 w-4" />
                       Add Project
@@ -728,14 +733,14 @@ export default function AdminDashboard() {
                               <div className="absolute bottom-3 right-3 flex gap-2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                                 <button
                                   onClick={() => { setEditingProject(project); setIsProjectModalOpen(true) }}
-                                  className="p-2 bg-white text-text-primary rounded-full hover:bg-black shadow-lg"
+                                  className="p-2 bg-white text-text-primary rounded-full hover:bg-black hover:text-white shadow-lg"
                                   title="Edit"
                                 >
                                   <Edit2 className="h-4 w-4" />
                                 </button>
                                 <button
                                   onClick={() => handleDeleteProject(project._id)}
-                                  className="p-2 bg-white text-text-primary rounded-full hover:bg-black shadow-lg"
+                                  className="p-2 bg-white text-text-primary rounded-full hover:bg-black hover:text-white shadow-lg"
                                   title="Delete"
                                 >
                                   <Trash2 className="h-4 w-4" />
@@ -837,7 +842,7 @@ export default function AdminDashboard() {
                               e.preventDefault();
                             }}>
                               <div className="flex items-center gap-6">
-                                <div className="h-20 w-20 rounded-full bg-black flex items-center justify-center text-text-primary text-2xl font-bold border-4 border-white shadow-sm">
+                                <div className="h-20 w-20 rounded-full bg-black flex items-center justify-center text-white text-2xl font-bold border-4 border-white shadow-sm">
                                   {(localStorage.getItem('username') || 'U').charAt(0).toUpperCase()}
                                 </div>
                                 <div>
@@ -871,7 +876,7 @@ export default function AdminDashboard() {
                               </div>
 
                               <div className="flex justify-end pt-4">
-                                <button type="submit" className="px-6 py-2.5 bg-black text-white text-sm font-medium rounded-lg hover:bg-black shadow-sm transition-colors">
+                                <button type="submit" className="px-6 py-2.5 bg-black text-white text-sm font-medium rounded-lg hover:bg-black hover:text-white shadow-sm transition-colors">
                                   Save Changes
                                 </button>
                               </div>
@@ -941,7 +946,7 @@ export default function AdminDashboard() {
                               </div>
 
                               <div className="flex justify-end pt-4">
-                                <button type="submit" className="px-6 py-2.5 bg-black text-white text-sm font-medium rounded-lg hover:bg-black shadow-sm transition-colors">
+                                <button type="submit" className="px-6 py-2.5 bg-black text-white text-sm font-medium rounded-lg hover:bg-black hover:text-white shadow-sm transition-colors">
                                   Update Password
                                 </button>
                               </div>
@@ -997,7 +1002,7 @@ export default function AdminDashboard() {
                     </div>
                     <button
                       onClick={() => { setEditingPost(null); setIsPostModalOpen(true) }}
-                      className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-black transition-colors shadow-sm font-medium"
+                      className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-black hover:text-white transition-colors shadow-sm font-medium"
                     >
                       <Plus className="h-4 w-4" />
                       Create Post
@@ -1047,14 +1052,14 @@ export default function AdminDashboard() {
                               <div className="absolute bottom-3 right-3 flex gap-2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                                 <button
                                   onClick={() => { setEditingPost(post); setIsPostModalOpen(true) }}
-                                  className="p-2 bg-white text-text-primary rounded-full hover:bg-black shadow-lg"
+                                  className="p-2 bg-white text-text-primary rounded-full hover:bg-black hover:text-white shadow-lg"
                                   title="Edit"
                                 >
                                   <Edit2 className="h-4 w-4" />
                                 </button>
                                 <button
                                   onClick={() => handleDeletePost(post._id)}
-                                  className="p-2 bg-white text-text-primary rounded-full hover:bg-black shadow-lg"
+                                  className="p-2 bg-white text-text-primary rounded-full hover:bg-black hover:text-white shadow-lg"
                                   title="Delete"
                                 >
                                   <Trash2 className="h-4 w-4" />
@@ -1176,7 +1181,7 @@ export default function AdminDashboard() {
                                 type="file"
                                 name="image"
                                 accept="image/*"
-                                className="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-black file:text-text-primary hover:file:bg-black file:cursor-pointer cursor-pointer border border-slate-200 rounded-lg"
+                                className="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-black file:text-white hover:file:bg-black file:cursor-pointer cursor-pointer border border-slate-200 rounded-lg"
                               />
                             </div>
                           </div>
@@ -1223,7 +1228,7 @@ export default function AdminDashboard() {
                           </button>
                           <button
                             type="submit"
-                            className="px-6 py-2.5 text-sm font-medium bg-black text-white rounded-lg hover:bg-black shadow-md hover:shadow-lg transition-all"
+                            className="px-6 py-2.5 text-sm font-medium bg-black text-white rounded-lg hover:bg-black hover:text-white shadow-md hover:shadow-lg transition-all"
                           >
                             {editingPost ? 'Update Post' : 'Publish Post'}
                           </button>
@@ -1291,7 +1296,7 @@ export default function AdminDashboard() {
                   </button>
                   <button
                     type="submit"
-                    className="px-5 py-2.5 text-sm font-medium bg-black text-white rounded-lg hover:bg-black shadow-md hover:shadow-lg transition-all"
+                    className="px-5 py-2.5 text-sm font-medium bg-black text-white rounded-lg hover:bg-black hover:text-white shadow-md hover:shadow-lg transition-all"
                   >
                     {editingTag ? 'Save Changes' : 'Create Tag'}
                   </button>
@@ -1359,7 +1364,7 @@ export default function AdminDashboard() {
                         type="file"
                         name="image"
                         accept="image/*"
-                        className="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-black file:text-text-primary hover:file:bg-black file:cursor-pointer cursor-pointer border border-slate-200 rounded-lg"
+                        className="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-black file:text-white hover:file:bg-black file:cursor-pointer cursor-pointer border border-slate-200 rounded-lg"
                       />
                     </div>
                   </div>
@@ -1406,7 +1411,7 @@ export default function AdminDashboard() {
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-2.5 text-sm font-medium bg-black text-white rounded-lg hover:bg-black shadow-md hover:shadow-lg transition-all"
+                    className="px-6 py-2.5 text-sm font-medium bg-black text-white rounded-lg hover:bg-black hover:text-white shadow-md hover:shadow-lg transition-all"
                   >
                     {editingProject ? 'Update Project' : 'Create Project'}
                   </button>
