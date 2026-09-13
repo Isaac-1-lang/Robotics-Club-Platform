@@ -122,7 +122,7 @@ export default function LoginPage() {
              Haven't account? <Link
               to="/register" className="font-semibold text-primary hover:underline"
             >
-              Request Access
+              Join club
             </Link>
             </p>
             {message && (
